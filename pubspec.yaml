@@ -16,6 +16,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^1.1.2
   image_picker: ^0.8.5+3
+  image_cropper: ^2.0.3
+  flutter_riverpod: ^1.0.4
 
 dev_dependencies:
   flutter_test:
@@ -48,3 +50,13 @@ flutter:
           weight: 500
         - asset: fonts/gmarket/GmarketSansTTFBold.ttf
           weight: 700
+    - family: Kangwon
+      fonts:
+        - asset: fonts/kangwon/강원교육모두 Light.otf
+          weight: 400
+        - asset: fonts/kangwon/강원교육모두 Bold.otf
+          weight: 700
+
+#    - family: Kangwon
+#      fonts:
+#        - asset: fonts/kangwon/강원교육새음.ttf
