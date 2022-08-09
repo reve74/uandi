@@ -8,9 +8,9 @@ import 'package:uandi/app/provider/counter_provider.dart';
 class HomeScreen extends ConsumerWidget {
   HomeScreen({Key? key}) : super(key: key);
 
-  final valueProvider = Provider<int>((ref) {
-    return 36;
-  });
+  // final valueProvider = Provider<int>((ref) {
+  //   return 36;
+  // });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
