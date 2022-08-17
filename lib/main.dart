@@ -6,10 +6,10 @@ import 'package:uandi/app/app.dart';
 import 'package:uandi/app/model/couple.dart';
 
 void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(CoupleAdapter());
-  await Hive.openBox<Couple>('Couple');
+  await Hive.openBox<Couple>('couple');
 
   runApp(ProviderScope(child: const MyApp()));
 }

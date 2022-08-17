@@ -8,7 +8,7 @@ part of 'couple.dart';
 
 class CoupleAdapter extends TypeAdapter<Couple> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
   Couple read(BinaryReader reader) {
@@ -18,18 +18,24 @@ class CoupleAdapter extends TypeAdapter<Couple> {
     };
     return Couple(
       selectedDate: fields[0] as DateTime?,
-      backgroundImage: fields[1] as XFile?,
+      backgroundImage: fields[1] as Uint8List?,
+      selectedImage1: fields[2] as Uint8List?,
+      selectedImage2: fields[3] as Uint8List?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Couple obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.selectedDate)
       ..writeByte(1)
-      ..write(obj.backgroundImage);
+      ..write(obj.backgroundImage)
+      ..writeByte(2)
+      ..write(obj.selectedImage1)
+      ..writeByte(3)
+      ..write(obj.selectedImage2);
   }
 
   @override
