@@ -7,7 +7,7 @@ part 'couple.g.dart';
 @HiveType(typeId: 1)
 class Couple {
   @HiveField(0)
-  late DateTime? selectedDate;
+  final DateTime? selectedDate;
 
   @HiveField(1)
   final Uint8List? backgroundImage;

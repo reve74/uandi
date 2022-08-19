@@ -35,17 +35,19 @@ void onHearthPressed(context, WidgetRef ref, selectedDate) async {
                 ref.watch(dateProvider.state).state = date;
                 //TODO: 하이브에 date 저장
                 final box = await Hive.openBox<Couple>('couple');
+                int id = 0;
+                box.put(
+                  id,
+                  Couple(
+                    selectedDate: ref.watch(dateProvider.state).state,
+                    backgroundImage: ref.watch(backgroundImageProvider.state).state,
+                    selectedImage1: ref.watch(selectedImage1Provider.state).state,
+                    selectedImage2: ref.watch(selectedImage2Provider.state).state,
+                  ),
+                );
+                print(box.values);
 
-                // box.put(
-                //   selectedDate,
-                //   Couple(
-                //     selectedDate: ref.watch(dateProvider.state).state,
-                //     backgroundImage: ref.watch(backgroundImageProvider.state).state,
-                //     selectedImage1: selectedImage1,
-                //     selectedImage2: selectedImage2,
-                //   ),
-                // );
-
+                print('succees');
 
                 // setState(() {
                 //   selectedDate = date;
@@ -69,5 +71,17 @@ void onHearthPressed(context, WidgetRef ref, selectedDate) async {
     ref.watch(dateProvider.state).state = date;
     //TODO: 하이브에 date 저장
 
+    final box = await Hive.openBox<Couple>('couple');
+    int id = 0;
+    box.put(
+      id,
+      Couple(
+        selectedDate: ref.watch(dateProvider.state).state,
+        backgroundImage: ref.watch(backgroundImageProvider.state).state,
+        selectedImage1: ref.watch(selectedImage1Provider.state).state,
+        selectedImage2: ref.watch(selectedImage2Provider.state).state,
+      ),
+    );
+    print(box.values);
   }
 }
