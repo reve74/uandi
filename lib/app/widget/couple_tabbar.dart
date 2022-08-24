@@ -22,83 +22,37 @@ class CoupleTabBar extends ConsumerWidget {
     final now = DateTime.now();
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         eHeight(20),
         _backgroundImage(context),
-        Container(
-          child: Consumer(
-            builder: (context, ref, _) {
-              final DateTime selectedDate = ref.watch(dateProvider.state).state;
-              return Text(
-                '${selectedDate.year}.${selectedDate.month}.${selectedDate.day}',
-              );
-            },
-          ),
-        ),
+        // Container(
+        //   child: Consumer(
+        //     builder: (context, ref, _) {
+        //       final DateTime selectedDate = ref.watch(dateProvider.state).state;
+        //       return Text(
+        //         '${selectedDate.year}.${selectedDate.month}.${selectedDate.day}',
+        //       );
+        //     },
+        //   ),
+        // ),
+        eHeight(10),
         ValueListenableBuilder(
           valueListenable: Hive.box<Couple>('couple').listenable(),
-          child: _day(),
           builder: (context, Box<Couple> box, child) {
             final item = box.get(0);
             if (item == null) {
-
-              return Container(
-                height: 80,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Image.asset(
-                      'assets/img/smile.png',
-                      height: 70,
-                    ),
-                    Column(
-                      children: [
-                        IconButton(
-                          iconSize: 55,
-                          onPressed: () {
-                            onHearthPressed(context, ref, selectedDate);
-                          },
-                          padding: EdgeInsets.zero,
-                          constraints: BoxConstraints(),
-                          icon: const Icon(
-                            Icons.favorite,
-                            color: ColorPalette.lightPink,
-                          ),
-                        ),
-                        if (item == null)
-                          Text(
-                            '${DateTime(
-                                  now.year,
-                                  now.month,
-                                  now.day,
-                                ).difference(selectedDate).inDays + 1}',
-                            style: Kangwon.black_s35_w400_h24,
-                          )
-                        else
-                          Text(
-                            '${DateTime(
-                                  now.year,
-                                  now.month,
-                                  now.day,
-                                ).difference(item.selectedDate as DateTime).inDays + 1}',
-                            style: Kangwon.black_s35_w400_h24,
-                          ),
-
-                        // Text(
-                        //   '${DateTime(
-                        //     now.year,
-                        //     now.month,
-                        //     now.day,
-                        //   ).difference(ref.watch(dateProvider.state).state).inDays + 1}',
-                        //   style: Kangwon.black_s35_w400_h24,
-                        // ),
-                      ],
-                    ),
-                    Image.asset(
-                      'assets/img/smile.png',
-                      height: 70,
-                    ),
-                  ],
+              return _dayCount(
+                context,
+                ref,
+                selectedDate,
+                Text(
+                  '${DateTime(
+                        now.year,
+                        now.month,
+                        now.day,
+                      ).difference(selectedDate).inDays + 1}',
+                  style: Kangwon.black_s35_w400_h24,
                 ),
               );
             }
@@ -108,74 +62,31 @@ class CoupleTabBar extends ConsumerWidget {
                 dateFormatter.format(item.selectedDate as DateTime);
 
             print(dateString);
-            return Column(
-              children: [
-                Text(
-                  dateString,
-                  style: Kangwon.black_s20_w400_h24,
-                ),
-                Container(
-                  height: 80,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Image.asset(
-                        'assets/img/smile.png',
-                        height: 70,
-                      ),
-                      Column(
-                        children: [
-                          IconButton(
-                            iconSize: 55,
-                            onPressed: () {
-                              onHearthPressed(context, ref, selectedDate);
-                            },
-                            padding: EdgeInsets.zero,
-                            constraints: BoxConstraints(),
-                            icon: const Icon(
-                              Icons.favorite,
-                              color: ColorPalette.lightPink,
-                            ),
-                          ),
-                          if (item == null)
-                            Text(
-                              '${DateTime(
-                                    now.year,
-                                    now.month,
-                                    now.day,
-                                  ).difference(ref.watch(dateProvider.state).state).inDays + 1}',
-                              style: Kangwon.black_s35_w400_h24,
-                            )
-                          else
-                            Text(
-                              '${DateTime(
-                                    now.year,
-                                    now.month,
-                                    now.day,
-                                  ).difference(item.selectedDate as DateTime).inDays + 1}',
-                              style: Kangwon.black_s35_w400_h24,
-                            ),
-
-                          // Text(
-                          //   '${DateTime(
-                          //     now.year,
-                          //     now.month,
-                          //     now.day,
-                          //   ).difference(ref.watch(dateProvider.state).state).inDays + 1}',
-                          //   style: Kangwon.black_s35_w400_h24,
-                          // ),
-                        ],
-                      ),
-                      Image.asset(
-                        'assets/img/smile.png',
-                        height: 70,
-                      ),
-                    ],
-                  ),
-                )
-              ],
+            return _dayCount(
+              context,
+              ref,
+              selectedDate,
+              Text(
+                '${DateTime(
+                      now.year,
+                      now.month,
+                      now.day,
+                    ).difference(item.selectedDate as DateTime).inDays + 1}',
+                style: Kangwon.black_s35_w400_h24,
+              ),
             );
           },
+        ),
+        eHeight(20),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('기념일', style: Kangwon.black_s25_w600_h24),
+              IconButton(onPressed: (){}, icon: Icon(Icons.add))
+            ],
+          ),
         ),
       ],
     );
@@ -192,7 +103,63 @@ class CoupleTabBar extends ConsumerWidget {
     );
   }
 
-  Widget _day() {
-    return Text('test');
+  Widget _dayCount(context, ref, selectedDate, Text day) {
+    return Container(
+      height: 100,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Image.asset(
+            'assets/img/smile.png',
+            height: 80,
+          ),
+          Column(
+            children: [
+              IconButton(
+                iconSize: 55,
+                onPressed: () {
+                  onHearthPressed(context, ref, selectedDate);
+                },
+                padding: EdgeInsets.zero,
+                constraints: BoxConstraints(),
+                icon: const Icon(
+                  Icons.favorite,
+                  color: ColorPalette.point,
+                ),
+              ),
+              day,
+              // Text(
+              //   '${DateTime(
+              //     now.year,
+              //     now.month,
+              //     now.day,
+              //   ).difference(selectedDate).inDays + 1}',
+              //   style: Kangwon.black_s35_w400_h24,
+              // ),
+              // Text(
+              //   '${DateTime(
+              //     now.year,
+              //     now.month,
+              //     now.day,
+              //   ).difference(ref.watch(dateProvider.state).state).inDays + 1}',
+              //   style: Kangwon.black_s35_w400_h24,
+              // ),
+              // Text(
+              //   '${DateTime(
+              //     now.year,
+              //     now.month,
+              //     now.day,
+              //   ).difference(item.selectedDate as DateTime).inDays + 1}',
+              //   style: Kangwon.black_s35_w400_h24,
+              // ),
+            ],
+          ),
+          Image.asset(
+            'assets/img/smile.png',
+            height: 80,
+          ),
+        ],
+      ),
+    );
   }
 }

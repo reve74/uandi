@@ -17,13 +17,19 @@ class Kangwon {
 
   static const white_s30_bold_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.white, fontSize: 30, fontWeight: FontWeight.bold, height: 24);
 
+  static const point_s20_w400_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.point, fontSize: 20, fontWeight: FontWeight.w400, height: 24);
   static const point_s25_w400_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.point, fontSize: 25, fontWeight: FontWeight.w400, height: 24);
 
+  static const black_s17_w400_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.black, fontSize: 17, fontWeight: FontWeight.w400, height: 24);
   static const black_s20_w400_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.black, fontSize: 20, fontWeight: FontWeight.w400, height: 24);
+  static const black_s20_w600_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.black, fontSize: 20, fontWeight: FontWeight.w600, height: 24);
 
   static const black_s25_w400_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.black, fontSize: 25, fontWeight: FontWeight.w400, height: 24);
+  static const black_s25_w600_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.black, fontSize: 25, fontWeight: FontWeight.w600, height: 24);
   static const black_s35_w400_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.black, fontSize: 35, fontWeight: FontWeight.w400, height: 24);
 
+
+  static const black2_s17_w400_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.black3, fontSize: 17, fontWeight: FontWeight.w400, height: 24);
 
 
 }

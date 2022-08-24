@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:uandi/app/model/couple.dart';
 import 'package:uandi/app/provider/counter_provider.dart';
 import 'dart:typed_data';
@@ -84,4 +85,16 @@ void onHearthPressed(context, WidgetRef ref, selectedDate) async {
     );
     print(box.values);
   }
+}
+
+String dayCount(int index, String storyDayText) {
+  storyDayText = index == 1 ? '처음 만난 날' : index % 365 == 0 ? '${(index / 365).toInt()}주년' : '$index일';
+  return storyDayText;
+}
+
+void pickImage() async{
+  // XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+  // if (pickedImage != null) {
+  //   Uint8List _image = await pickedImage.readAsBytes();
+  // }
 }

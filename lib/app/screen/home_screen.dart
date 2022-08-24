@@ -36,20 +36,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ColorPalette.pink,
-        elevation: 0,
-        title: const Text('너랑 나', style: Kangwon.white_s30_bold_h24),
-        centerTitle: false,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.settings,
-            ),
-          ),
-        ],
+      endDrawer: Drawer(
+        width: MediaQuery.of(context).size.width * .7,
+        child: _drawer(),
       ),
+      appBar: AppBar(
+          backgroundColor: ColorPalette.pink,
+          elevation: 0,
+          title: const Text('너랑 나', style: Kangwon.white_s30_bold_h24),
+          centerTitle: false,
+          actions: [
+            Builder(
+              builder: (context) {
+                return IconButton(
+                  onPressed: () {
+                    Scaffold.of(context).openEndDrawer();
+                  },
+                  icon: Icon(
+                    Icons.settings,
+                  ),
+                );
+              },
+            )
+          ]),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () => ref.watch(counterProvider.state).state++,
       //   child: const Icon(Icons.add),
@@ -95,7 +104,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   Widget _tabView() {
     return Container(
       width: double.maxFinite,
-      height: 600,
+      height: 650,
       child: TabBarView(
         controller: _tabController,
         children: [
@@ -103,6 +112,64 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           StoryTabBar(),
         ],
       ),
+    );
+  }
+
+  Widget _drawerBtn({required String text, required Function() onTap}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            text,
+            style: Kangwon.black_s20_w400_h24,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _drawer() {
+    DateTime selectedDate = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+    return Column(
+      children: [
+        Container(
+          height: MediaQuery.of(context).padding.top,
+          color: ColorPalette.pink,
+        ),
+        Container(
+          height: AppBar().preferredSize.height,
+          color: ColorPalette.pink,
+          child: Center(
+              child: Text(
+            '설정',
+            style: Kangwon.white_s30_bold_h24,
+          )),
+        ),
+        Spacer(flex: 10),
+        _drawerBtn(
+          onTap: () {
+            Navigator.pop(context);
+            onHearthPressed(context, ref, selectedDate);
+          },
+          text: '날짜 변경하기',
+        ),
+        _drawerBtn(
+          onTap: () {},
+          text: '배경화면 변경하기',
+        ),
+        _drawerBtn(
+          onTap: () {},
+          text: '날짜 변경하기',
+        ),
+        Spacer(flex: 500),
+      ],
     );
   }
 }
