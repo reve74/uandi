@@ -3,12 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
-import 'package:uandi/app/const/kangwon.dart';
-import 'package:uandi/app/const/size_helper.dart';
 import 'package:uandi/app/const/storyday.dart';
 import 'package:uandi/app/model/couple.dart';
-import 'package:uandi/app/model/day.dart';
-import 'package:uandi/app/provider/counter_provider.dart';
 import 'package:uandi/app/utils/util.dart';
 import 'package:uandi/app/widget/day_card.dart';
 

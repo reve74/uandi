@@ -25,7 +25,11 @@ class CoupleTabBar extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         eHeight(20),
-        _backgroundImage(context),
+        GestureDetector(
+            onTap: () {
+              pickBackgroundImage();
+            },
+            child: _backgroundImage(context)),
         // Container(
         //   child: Consumer(
         //     builder: (context, ref, _) {
@@ -61,7 +65,6 @@ class CoupleTabBar extends ConsumerWidget {
             final dateString =
                 dateFormatter.format(item.selectedDate as DateTime);
 
-            print(dateString);
             return _dayCount(
               context,
               ref,
@@ -84,7 +87,7 @@ class CoupleTabBar extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('기념일', style: Kangwon.black_s25_w600_h24),
-              IconButton(onPressed: (){}, icon: Icon(Icons.add))
+              IconButton(onPressed: () {}, icon: Icon(Icons.add))
             ],
           ),
         ),
@@ -109,9 +112,12 @@ class CoupleTabBar extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Image.asset(
-            'assets/img/smile.png',
-            height: 80,
+          GestureDetector(
+            onTap: () {},
+            child: Image.asset(
+              'assets/img/smile.png',
+              height: 80,
+            ),
           ),
           Column(
             children: [
@@ -154,9 +160,12 @@ class CoupleTabBar extends ConsumerWidget {
               // ),
             ],
           ),
-          Image.asset(
-            'assets/img/smile.png',
-            height: 80,
+          GestureDetector(
+            onTap: () {},
+            child: Image.asset(
+              'assets/img/smile.png',
+              height: 80,
+            ),
           ),
         ],
       ),

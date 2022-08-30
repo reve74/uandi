@@ -13,6 +13,7 @@ class ColorPalette {
 
   static const pink = Color(0xFFFF8FB1);
   static const lightPink = Color(0xFFFFDEDE);
+  static const lightPink1 = Color(0xFFFFB3B3);
 
   static const americanSilver = Color(0xFFCECECE);
   static const red = Color(0xFFFF4F37);

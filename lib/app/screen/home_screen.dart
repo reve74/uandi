@@ -52,7 +52,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                   onPressed: () {
                     Scaffold.of(context).openEndDrawer();
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.settings,
                   ),
                 );
@@ -84,14 +84,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         tabs: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Text(
+            child: const Text(
               '커플',
               style: Kangwon.point_s25_w400_h24,
             ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Text(
+            child: const Text(
               '스토리',
               style: Kangwon.point_s25_w400_h24,
             ),
@@ -108,8 +108,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       child: TabBarView(
         controller: _tabController,
         children: [
-          CoupleTabBar(),
-          StoryTabBar(),
+          const CoupleTabBar(),
+          const StoryTabBar(),
         ],
       ),
     );
@@ -146,13 +146,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         Container(
           height: AppBar().preferredSize.height,
           color: ColorPalette.pink,
-          child: Center(
+          child: const Center(
               child: Text(
             '설정',
             style: Kangwon.white_s30_bold_h24,
           )),
         ),
-        Spacer(flex: 10),
+        const Spacer(flex: 10),
         _drawerBtn(
           onTap: () {
             Navigator.pop(context);
@@ -160,16 +160,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           },
           text: '날짜 변경하기',
         ),
+        _divider(),
         _drawerBtn(
           onTap: () {},
           text: '배경화면 변경하기',
         ),
-        _drawerBtn(
-          onTap: () {},
-          text: '날짜 변경하기',
-        ),
-        Spacer(flex: 500),
+        _divider(),
+        // _drawerBtn(
+        //   onTap: () {},
+        //   text: '날짜 변경하기',
+        // ),
+        const Spacer(flex: 500),
       ],
+    );
+  }
+
+  Widget _divider() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 80.0),
+      child: Divider(
+        thickness: 1,
+        height: 1,
+      ),
     );
   }
 }

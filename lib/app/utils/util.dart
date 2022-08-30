@@ -25,7 +25,7 @@ void onHearthPressed(context, WidgetRef ref, selectedDate) async {
             height: 300.0,
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,
-              initialDateTime: ref.watch(dateProvider.state).state,
+              initialDateTime: ref.read(dateProvider.state).state,
               //!= null ? selectedDate : ref.watch(dateProvider.state).state,
               maximumDate: DateTime(
                 now.year,
@@ -33,26 +33,9 @@ void onHearthPressed(context, WidgetRef ref, selectedDate) async {
                 now.day,
               ),
               onDateTimeChanged: (DateTime date) async {
-                ref.watch(dateProvider.state).state = date;
+                ref.read(dateProvider.state).state = date;
                 //TODO: 하이브에 date 저장
-                final box = await Hive.openBox<Couple>('couple');
-                int id = 0;
-                box.put(
-                  id,
-                  Couple(
-                    selectedDate: ref.watch(dateProvider.state).state,
-                    backgroundImage: ref.watch(backgroundImageProvider.state).state,
-                    selectedImage1: ref.watch(selectedImage1Provider.state).state,
-                    selectedImage2: ref.watch(selectedImage2Provider.state).state,
-                  ),
-                );
-                print(box.values);
-
-                print('succees');
-
-                // setState(() {
-                //   selectedDate = date;
-                // });
+                save(ref);
               },
             ),
           ),
@@ -71,30 +54,87 @@ void onHearthPressed(context, WidgetRef ref, selectedDate) async {
     if (date == null) return;
     ref.watch(dateProvider.state).state = date;
     //TODO: 하이브에 date 저장
-
-    final box = await Hive.openBox<Couple>('couple');
-    int id = 0;
-    box.put(
-      id,
-      Couple(
-        selectedDate: ref.watch(dateProvider.state).state,
-        backgroundImage: ref.watch(backgroundImageProvider.state).state,
-        selectedImage1: ref.watch(selectedImage1Provider.state).state,
-        selectedImage2: ref.watch(selectedImage2Provider.state).state,
-      ),
-    );
-    print(box.values);
+    save(ref);
   }
 }
+
+void daySelect(context, WidgetRef ref, selectedDate) async{
+  final DateTime now = DateTime.now();
+
+  if (Platform.isIOS) {
+    showCupertinoDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            color: Colors.white,
+            height: 300.0,
+            child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.date,
+              initialDateTime: ref.read(dateProvider.state).state,
+              //!= null ? selectedDate : ref.watch(dateProvider.state).state,
+              maximumDate: DateTime(
+                now.year,
+                now.month,
+                now.day,
+              ),
+              onDateTimeChanged: (DateTime date) async {
+                ref.read(dateProvider.state).state = date;
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+  if (Platform.isAndroid) {
+    print('button');
+    DateTime? date = await showDatePicker(
+      context: context,
+      initialDate: ref.watch(dateProvider.state).state,
+      firstDate: DateTime(1900),
+      lastDate: selectedDate,
+    );
+    if (date == null) return;
+    ref.watch(dateProvider.state).state = date;
+  }
+}
+
+void save(WidgetRef ref) async{
+  final box = await Hive.openBox<Couple>('couple');
+  int id = 0;
+  box.put(
+    id,
+    Couple(
+      selectedDate: ref.watch(dateProvider.state).state,
+      backgroundImage: ref.watch(backgroundImageProvider.state).state,
+      selectedImage1: ref.watch(selectedImage1Provider.state).state,
+      selectedImage2: ref.watch(selectedImage2Provider.state).state,
+    ),
+  );
+  print(box.values);
+  print('succees');
+}
+
+
 
 String dayCount(int index, String storyDayText) {
   storyDayText = index == 1 ? '처음 만난 날' : index % 365 == 0 ? '${(index / 365).toInt()}주년' : '$index일';
   return storyDayText;
 }
 
-void pickImage() async{
+void pickBackgroundImage() async{
   // XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
   // if (pickedImage != null) {
   //   Uint8List _image = await pickedImage.readAsBytes();
   // }
+}
+
+void firstAvatar() {
+}
+
+void secondAvatar(){
+
 }
