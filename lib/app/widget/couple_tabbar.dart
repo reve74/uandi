@@ -1,19 +1,33 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:uandi/app/const/color_palette.dart';
 import 'package:uandi/app/const/kangwon.dart';
 import 'package:uandi/app/const/size_helper.dart';
+import 'package:uandi/app/model/anniversary.dart';
 import 'package:uandi/app/model/couple.dart';
 import 'package:uandi/app/provider/counter_provider.dart';
+import 'package:uandi/app/screen/add_anniversary_screen.dart';
 import 'package:uandi/app/utils/util.dart';
 
-class CoupleTabBar extends ConsumerWidget {
+class CoupleTabBar extends ConsumerStatefulWidget {
   const CoupleTabBar({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _CoupleTabBarState createState() => _CoupleTabBarState();
+}
+
+class _CoupleTabBarState extends ConsumerState {
+  XFile? _pickedFile;
+  CroppedFile? _croppedFile;
+
+  @override
+  Widget build(BuildContext context) {
     DateTime selectedDate = DateTime(
       DateTime.now().year,
       DateTime.now().month,
@@ -21,31 +35,103 @@ class CoupleTabBar extends ConsumerWidget {
     );
     final now = DateTime.now();
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        eHeight(20),
-        GestureDetector(
-            onTap: () {
-              pickBackgroundImage();
-            },
-            child: _backgroundImage(context)),
-        // Container(
-        //   child: Consumer(
-        //     builder: (context, ref, _) {
-        //       final DateTime selectedDate = ref.watch(dateProvider.state).state;
-        //       return Text(
-        //         '${selectedDate.year}.${selectedDate.month}.${selectedDate.day}',
-        //       );
-        //     },
-        //   ),
-        // ),
-        eHeight(10),
-        ValueListenableBuilder(
-          valueListenable: Hive.box<Couple>('couple').listenable(),
-          builder: (context, Box<Couple> box, child) {
-            final item = box.get(0);
-            if (item == null) {
+    Future<void> _cropImage() async {
+      if (_pickedFile != null) {
+        final croppedFile = await ImageCropper().cropImage(
+          // cropStyle: CropStyle.circle,
+          sourcePath: _pickedFile!.path,
+          compressFormat: ImageCompressFormat.jpg,
+          compressQuality: 100,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.ratio3x2,
+          ],
+          uiSettings: [
+            AndroidUiSettings(
+                toolbarTitle: 'Cropper',
+                toolbarColor: Colors.deepOrange,
+                toolbarWidgetColor: Colors.white,
+                initAspectRatio: CropAspectRatioPreset.original,
+                lockAspectRatio: false),
+            IOSUiSettings(
+              title: 'Cropper',
+            ),
+          ],
+        );
+        if (croppedFile != null) {
+          setState(() {
+            _croppedFile = croppedFile;
+          });
+        }
+      }
+    }
+
+    Future<void> _uploadImage() async {
+      final pickedFile =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          _pickedFile = pickedFile;
+        });
+        _cropImage();
+      }
+    }
+
+    Widget _image() {
+      if (_croppedFile != null) {
+        return Container(
+            height: MediaQuery.of(context).size.height * .3,
+            width: MediaQuery.of(context).size.width,
+            child: Image.file(File(_croppedFile!.path)));
+      } else {
+        return _backgroundImage(context);
+      }
+    }
+
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          eHeight(20),
+          GestureDetector(
+              onTap: () async {
+                _uploadImage();
+              },
+              child: _image()),
+          // Container(
+          //   child: Consumer(
+          //     builder: (context, ref, _) {
+          //       final DateTime selectedDate = ref.watch(dateProvider.state).state;
+          //       return Text(
+          //         '${selectedDate.year}.${selectedDate.month}.${selectedDate.day}',
+          //       );
+          //     },
+          //   ),
+          // ),
+          eHeight(10),
+          ValueListenableBuilder(
+            valueListenable: Hive.box<Couple>('couple').listenable(),
+            builder: (context, Box<Couple> box, child) {
+              final item = box.get(0);
+              if (item == null) {
+                return _dayCount(
+                  context,
+                  ref,
+                  selectedDate,
+                  Text(
+                    '${DateTime(
+                          now.year,
+                          now.month,
+                          now.day,
+                        ).difference(selectedDate).inDays + 1}',
+                    style: Kangwon.black_s35_w400_h24,
+                  ),
+                );
+              }
+
+              final dateFormatter = DateFormat('yyyy.MM.dd');
+              final dateString =
+                  dateFormatter.format(item.selectedDate as DateTime);
+
               return _dayCount(
                 context,
                 ref,
@@ -55,43 +141,39 @@ class CoupleTabBar extends ConsumerWidget {
                         now.year,
                         now.month,
                         now.day,
-                      ).difference(selectedDate).inDays + 1}',
+                      ).difference(item.selectedDate as DateTime).inDays + 1}',
                   style: Kangwon.black_s35_w400_h24,
                 ),
               );
-            }
-
-            final dateFormatter = DateFormat('yyyy.MM.dd');
-            final dateString =
-                dateFormatter.format(item.selectedDate as DateTime);
-
-            return _dayCount(
-              context,
-              ref,
-              selectedDate,
-              Text(
-                '${DateTime(
-                      now.year,
-                      now.month,
-                      now.day,
-                    ).difference(item.selectedDate as DateTime).inDays + 1}',
-                style: Kangwon.black_s35_w400_h24,
-              ),
-            );
-          },
-        ),
-        eHeight(20),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('기념일', style: Kangwon.black_s25_w600_h24),
-              IconButton(onPressed: () {}, icon: Icon(Icons.add))
-            ],
+            },
           ),
-        ),
-      ],
+          eHeight(20),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('기념일', style: Kangwon.black_s25_w600_h24),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AddAnniversaryScreen()));
+                        },
+                        icon: Icon(Icons.add))
+                  ],
+                ),
+                //TODO: 기념일 추가 위젯 List.generate
+
+                // List.generate(length, (index) {
+                //   return Anniversary(selectedDate: ,id: ,anniversary: );
+                // });
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -113,7 +195,10 @@ class CoupleTabBar extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           GestureDetector(
-            onTap: () {},
+            onTap: () async {
+              // await firstAvatar(ImageSource.gallery);
+              selectImage();
+            },
             child: Image.asset(
               'assets/img/smile.png',
               height: 80,
@@ -161,7 +246,9 @@ class CoupleTabBar extends ConsumerWidget {
             ],
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () async {
+              await secondAvatar(ImageSource.gallery);
+            },
             child: Image.asset(
               'assets/img/smile.png',
               height: 80,
@@ -170,5 +257,16 @@ class CoupleTabBar extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Future<void> selectImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _pickedFile = pickedFile;
+      });
+      cropImage(pickedFile: pickedFile);
+    }
   }
 }

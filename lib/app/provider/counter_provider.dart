@@ -18,9 +18,7 @@ final dateProvider = StateProvider(
 );
 
 
-
 final backgroundImageProvider = StateProvider<Uint8List>((ref) => Uint8List(0));
 final selectedImage1Provider = StateProvider<Uint8List>((ref) => Uint8List(0));
 final selectedImage2Provider = StateProvider<Uint8List>((ref) => Uint8List(0));
 
-// final storyDayTextProvider = StateProvider((ref) => storyDay.toString());

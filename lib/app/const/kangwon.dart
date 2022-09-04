@@ -14,6 +14,7 @@ class Kangwon {
   static const white_s14_w400_h20 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.white, fontSize: 14, fontWeight: FontWeight.w400, height: 20);
   static const white_s16_w400_h23 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.white, fontSize: 16, fontWeight: FontWeight.w400, height: 23);
   static const white_s16_w400_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.white, fontSize: 16, fontWeight: FontWeight.w400, height: 24);
+  static const white_s25_w400_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.white, fontSize: 25, fontWeight: FontWeight.w400, height: 24);
 
   static const white_s30_bold_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.white, fontSize: 30, fontWeight: FontWeight.bold, height: 24);
   static const white_s45_bold_h48 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.white, fontSize: 45, fontWeight: FontWeight.bold, height: 48);

@@ -102,9 +102,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   Widget _tabView() {
-    return Container(
-      width: double.maxFinite,
-      height: 650,
+    // TabBarView 전체영역 차지하기 위해 Expanded 위젯 사용
+    return Expanded(
       child: TabBarView(
         controller: _tabController,
         children: [
@@ -164,6 +163,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         _drawerBtn(
           onTap: () {},
           text: '배경화면 변경하기',
+        ),
+        _divider(),
+        _drawerBtn(
+          onTap: () {},
+          text: '이미지 초기화하기',
         ),
         _divider(),
         // _drawerBtn(
