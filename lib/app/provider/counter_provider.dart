@@ -1,24 +1,28 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:uandi/app/const/storyday.dart';
 
-final counterProvider = StateProvider((ref) => 0);
+final selectColorProvider = StateProvider<int>((ref) => 0);
+final textProvider = StateProvider<String>((ref) => '');
 
-final dateProvider = StateProvider(
+final now = DateTime.now();
+
+final dateProvider = StateProvider<DateTime>(
   (ref) => DateTime(
-    DateTime.now().year,
-    DateTime.now().month,
-    DateTime.now().day,
+    now.year,
+    now.month,
+    now.day,
   ),
 );
 
+final anniversaryDateProvider = StateProvider(
+  (ref) => DateTime(
+    now.year,
+    now.month,
+    now.day,
+  ),
+);
 
 final backgroundImageProvider = StateProvider<Uint8List>((ref) => Uint8List(0));
 final selectedImage1Provider = StateProvider<Uint8List>((ref) => Uint8List(0));
 final selectedImage2Provider = StateProvider<Uint8List>((ref) => Uint8List(0));
-

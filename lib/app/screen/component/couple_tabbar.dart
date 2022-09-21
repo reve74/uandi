@@ -14,6 +14,7 @@ import 'package:uandi/app/model/couple.dart';
 import 'package:uandi/app/provider/counter_provider.dart';
 import 'package:uandi/app/screen/add_anniversary_screen.dart';
 import 'package:uandi/app/utils/util.dart';
+import 'package:uandi/app/widget/anniversary_card.dart';
 
 class CoupleTabBar extends ConsumerStatefulWidget {
   const CoupleTabBar({Key? key}) : super(key: key);
@@ -97,16 +98,6 @@ class _CoupleTabBarState extends ConsumerState {
                 _uploadImage();
               },
               child: _image()),
-          // Container(
-          //   child: Consumer(
-          //     builder: (context, ref, _) {
-          //       final DateTime selectedDate = ref.watch(dateProvider.state).state;
-          //       return Text(
-          //         '${selectedDate.year}.${selectedDate.month}.${selectedDate.day}',
-          //       );
-          //     },
-          //   ),
-          // ),
           eHeight(10),
           ValueListenableBuilder(
             valueListenable: Hive.box<Couple>('couple').listenable(),
@@ -155,7 +146,7 @@ class _CoupleTabBarState extends ConsumerState {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('기념일', style: Kangwon.black_s25_w600_h24),
+                    const Text('기념일 메모', style: Kangwon.black_s25_w600_h24),
                     IconButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
@@ -165,6 +156,23 @@ class _CoupleTabBarState extends ConsumerState {
                   ],
                 ),
                 //TODO: 기념일 추가 위젯 List.generate
+                ValueListenableBuilder(
+                  valueListenable:
+                      Hive.box<Anniversary>('anniversary').listenable(),
+                  builder: (context, Box<Anniversary> box, child) {
+                    return Column(
+                      children: List.generate(
+                        box.length,
+                        (index) {
+                          final item = box.getAt(index);
+                          return GestureDetector(
+                              onTap: () {},
+                              child: AnniversaryCard(anniversary: item!));
+                        },
+                      ),
+                    );
+                  },
+                ),
 
                 // List.generate(length, (index) {
                 //   return Anniversary(selectedDate: ,id: ,anniversary: );
@@ -196,7 +204,7 @@ class _CoupleTabBarState extends ConsumerState {
         children: [
           GestureDetector(
             onTap: () async {
-              // await firstAvatar(ImageSource.gallery);
+              await pickAvatarImage();
               selectImage();
             },
             child: Image.asset(
@@ -247,7 +255,7 @@ class _CoupleTabBarState extends ConsumerState {
           ),
           GestureDetector(
             onTap: () async {
-              await secondAvatar(ImageSource.gallery);
+              await pickAvatarImage();
             },
             child: Image.asset(
               'assets/img/smile.png',

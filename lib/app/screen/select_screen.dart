@@ -12,11 +12,7 @@ class SelectScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    DateTime selectedDate = DateTime(
-      DateTime.now().year,
-      DateTime.now().month,
-      DateTime.now().day,
-    );
+
 
     return Scaffold(
       backgroundColor: ColorPalette.pink,
@@ -48,27 +44,28 @@ class SelectScreen extends ConsumerWidget {
             InkWell(
               onTap: () {
                 // onHearthPressed(context, ref, selectedDate);
-                daySelect(context, ref, selectedDate);
+                daySelect(
+                  context,
+                  ref,
+                  dateProvider,
+                  true,
+                );
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      child: Consumer(
-                        builder: (context, ref, _) {
-                          final DateTime selectedDate =
-                              ref.watch(dateProvider.state).state;
-                          final dateFormatter = DateFormat('yyyy.MM.dd');
-                          final dateString = dateFormatter.format(selectedDate);
-                          print(dateString);
-                          return Text(
-                            dateString,
-                            style: Kangwon.black_s35_w600_h24,
-                          );
-                        },
-                      ),
+                    child: Consumer(
+                      builder: (context, ref, _) {
+                        final DateTime selectedDate =
+                            ref.watch(dateProvider.state).state;
+                        final dateString = dateFormatter(date: selectedDate);
+                        return Text(
+                          dateString,
+                          style: Kangwon.black_s35_w600_h24,
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -77,7 +74,7 @@ class SelectScreen extends ConsumerWidget {
             Spacer(flex: 75),
             GestureDetector(
               onTap: () {
-                save(ref);
+                saveDate(ref);
                 // Navigator.of(context).push(
                 //     MaterialPageRoute(builder: (context) => HomeScreen()));
               },
@@ -86,7 +83,10 @@ class SelectScreen extends ConsumerWidget {
                 height: 80,
                 decoration: const BoxDecoration(
                     color: ColorPalette.white, shape: BoxShape.circle),
-                child: const Icon(Icons.arrow_forward, size: 40),
+                child: const Icon(
+                  Icons.arrow_forward,
+                  size: 40,
+                ),
               ),
             ),
             Spacer(flex: 25),

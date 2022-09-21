@@ -19,9 +19,9 @@ class Couple {
   final Uint8List? selectedImage2;
 
   Couple({
-    required this.selectedDate,
-    required this.backgroundImage,
-    required this.selectedImage1,
-    required this.selectedImage2,
+    this.selectedDate,
+    this.backgroundImage,
+    this.selectedImage1,
+    this.selectedImage2,
   });
 }

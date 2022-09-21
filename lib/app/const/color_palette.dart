@@ -19,5 +19,10 @@ class ColorPalette {
   static const red = Color(0xFFFF4F37);
   static const point = Color(0xFFFF4F37);
   static const heartColor = Color(0xFFFC611E);
+  static const skyBlue = Color(0xFF00D7FF);
+  static const yellow = Color(0xFFFFE61B);
+  static const purple = Color(0xFF7572F4);
+  static const peach = Color(0xFFFA7070);
+  static const beige = Color(0xFFFEF1E6);
 
 }

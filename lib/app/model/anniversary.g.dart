@@ -18,21 +18,24 @@ class AnniversaryAdapter extends TypeAdapter<Anniversary> {
     };
     return Anniversary(
       selectedDate: fields[0] as DateTime?,
-      anniversary: fields[1] as String,
+      text: fields[1] as String,
       id: fields[2] as int,
+      color: fields[3] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Anniversary obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.selectedDate)
       ..writeByte(1)
-      ..write(obj.anniversary)
+      ..write(obj.text)
       ..writeByte(2)
-      ..write(obj.id);
+      ..write(obj.id)
+      ..writeByte(3)
+      ..write(obj.color);
   }
 
   @override

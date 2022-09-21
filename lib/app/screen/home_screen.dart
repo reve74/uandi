@@ -8,8 +8,8 @@ import 'package:uandi/app/const/kangwon.dart';
 import 'package:uandi/app/const/size_helper.dart';
 import 'package:uandi/app/provider/counter_provider.dart';
 import 'package:uandi/app/utils/util.dart';
-import 'package:uandi/app/widget/couple_tabbar.dart';
-import 'package:uandi/app/widget/story_tabbar.dart';
+import 'package:uandi/app/screen/component/couple_tabbar.dart';
+import 'package:uandi/app/screen/component/story_tabbar.dart';
 import 'package:uandi/app/widget/tabbar_widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {

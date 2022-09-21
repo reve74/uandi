@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 part 'anniversary.g.dart';
@@ -8,14 +9,18 @@ class Anniversary {
   final DateTime? selectedDate;
 
   @HiveField(1)
-  final String anniversary;
+  final String text;
 
   @HiveField(2)
   final int id;
 
+  @HiveField(3)
+  final int color;
+
   Anniversary({
-    required this.selectedDate,
-    required this.anniversary,
+    this.selectedDate,
+    required this.text,
     required this.id,
+    required this.color,
   });
 }
