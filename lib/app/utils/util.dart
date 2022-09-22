@@ -6,7 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:uandi/app/const/color_palette.dart';
 import 'package:uandi/app/const/kangwon.dart';
+import 'package:uandi/app/model/memo_model.dart';
 import 'package:uandi/app/model/couple.dart';
 import 'package:uandi/app/provider/counter_provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -237,9 +239,51 @@ Future<void> selectImage() async {
   }
 }
 
-Widget label(String text) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
-    child: Text(text, style: Kangwon.black_s25_w600_h24),
+
+
+
+// 기념일 추가
+void addMemo(context, WidgetRef ref) async{
+  final box = await Hive.openBox<Memo>('memo');
+  int id = 0;
+
+  if (box.isNotEmpty) {
+    final prevItem = box.getAt(box.length - 1);
+    if (prevItem != null) {
+      id = prevItem.id + 1;
+    }
+  }
+  box.put(
+    id,
+    Memo(
+      selectedDate: ref.read(memoDateProvider),
+      text: ref.read(textProvider),
+      id: id,
+      color: ref.read(selectColorProvider),
+    ),
   );
+  Navigator.of(context).pop();
+}
+
+void deleteMemo(context, int id) async{
+  final box = await Hive.openBox<Memo>('memo');
+  box.delete(id);
+  Navigator.of(context).pop();
+}
+
+Color getBGClr(int no) {
+  switch (no) {
+    case 0:
+      return ColorPalette.beige;
+    case 1:
+      return ColorPalette.lightPink;
+    case 2:
+      return ColorPalette.lightPink1;
+    case 3:
+      return ColorPalette.pink;
+    case 4:
+      return ColorPalette.peach;
+    default:
+      return ColorPalette.beige;
+  }
 }

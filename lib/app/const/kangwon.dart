@@ -42,4 +42,5 @@ class Kangwon {
   static const lightGray_s35_w600_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.lightGray, fontSize: 20, fontWeight: FontWeight.w400, height: 24);
 
 
+
 }

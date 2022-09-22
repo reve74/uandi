@@ -9,12 +9,13 @@ import 'package:intl/intl.dart';
 import 'package:uandi/app/const/color_palette.dart';
 import 'package:uandi/app/const/kangwon.dart';
 import 'package:uandi/app/const/size_helper.dart';
-import 'package:uandi/app/model/anniversary.dart';
+import 'package:uandi/app/model/memo_model.dart';
 import 'package:uandi/app/model/couple.dart';
 import 'package:uandi/app/provider/counter_provider.dart';
-import 'package:uandi/app/screen/add_anniversary_screen.dart';
+import 'package:uandi/app/screen/add_memo_screen.dart';
+import 'package:uandi/app/screen/memo_screen.dart';
 import 'package:uandi/app/utils/util.dart';
-import 'package:uandi/app/widget/anniversary_card.dart';
+import 'package:uandi/app/widget/memo_card.dart';
 
 class CoupleTabBar extends ConsumerStatefulWidget {
   const CoupleTabBar({Key? key}) : super(key: key);
@@ -150,33 +151,39 @@ class _CoupleTabBarState extends ConsumerState {
                     IconButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => AddAnniversaryScreen()));
+                              builder: (context) => AddMemoScreen()));
                         },
                         icon: Icon(Icons.add))
                   ],
                 ),
                 //TODO: 기념일 추가 위젯 List.generate
                 ValueListenableBuilder(
-                  valueListenable:
-                      Hive.box<Anniversary>('anniversary').listenable(),
-                  builder: (context, Box<Anniversary> box, child) {
+                  valueListenable: Hive.box<Memo>('memo').listenable(),
+                  builder: (context, Box<Memo> box, child) {
                     return Column(
-                      children: List.generate(
-                        box.length,
-                        (index) {
-                          final item = box.getAt(index);
-                          return GestureDetector(
-                              onTap: () {},
-                              child: AnniversaryCard(anniversary: item!));
-                        },
-                      ),
+                      children:  List.generate(
+                              box.length,
+                              (index) {
+                                print(index);
+                                final memo = box.getAt(index);
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            MemoScreen(memo: memo!),
+                                      ),
+                                    );
+                                  },
+                                  child: MemoCard(
+                                    memo: memo!,
+                                  ),
+                                );
+                              },
+                            )
                     );
                   },
                 ),
-
-                // List.generate(length, (index) {
-                //   return Anniversary(selectedDate: ,id: ,anniversary: );
-                // });
               ],
             ),
           ),

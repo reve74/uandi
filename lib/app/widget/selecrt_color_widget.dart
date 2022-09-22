@@ -28,14 +28,14 @@ class SelectColorWidget extends ConsumerWidget {
                     child: CircleAvatar(
                       radius: 16,
                       backgroundColor: index == 0
-                          ? ColorPalette.pink
+                          ? ColorPalette.beige
                           : index == 1
-                          ? ColorPalette.peach
+                          ? ColorPalette.lightPink
                           : index == 2
                           ? ColorPalette.lightPink1
                           : index == 3
-                          ? ColorPalette.lightPink
-                          : ColorPalette.beige,
+                          ? ColorPalette.pink
+                          : ColorPalette.peach,
                       child: selectColor == index
                           ? Icon(
                         Icons.done,

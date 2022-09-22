@@ -1,16 +1,10 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uandi/app/const/color_palette.dart';
 import 'package:uandi/app/const/kangwon.dart';
-import 'package:uandi/app/const/size_helper.dart';
-import 'package:uandi/app/provider/counter_provider.dart';
+import 'package:uandi/app/screen/tabbar_widget/couple_tabbar.dart';
+import 'package:uandi/app/screen/tabbar_widget/story_tabbar.dart';
 import 'package:uandi/app/utils/util.dart';
-import 'package:uandi/app/screen/component/couple_tabbar.dart';
-import 'package:uandi/app/screen/component/story_tabbar.dart';
-import 'package:uandi/app/widget/tabbar_widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   HomeScreen({Key? key}) : super(key: key);

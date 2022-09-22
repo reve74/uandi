@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-part 'anniversary.g.dart';
+part 'memo_model.g.dart';
 
 @HiveType(typeId: 2)
-class Anniversary {
+class Memo {
   @HiveField(0)
   final DateTime? selectedDate;
 
@@ -17,7 +16,7 @@ class Anniversary {
   @HiveField(3)
   final int color;
 
-  Anniversary({
+  Memo({
     this.selectedDate,
     required this.text,
     required this.id,

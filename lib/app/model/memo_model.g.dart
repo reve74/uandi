@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'anniversary.dart';
+part of 'memo_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class AnniversaryAdapter extends TypeAdapter<Anniversary> {
+class MemoAdapter extends TypeAdapter<Memo> {
   @override
   final int typeId = 2;
 
   @override
-  Anniversary read(BinaryReader reader) {
+  Memo read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Anniversary(
+    return Memo(
       selectedDate: fields[0] as DateTime?,
       text: fields[1] as String,
       id: fields[2] as int,
@@ -25,7 +25,7 @@ class AnniversaryAdapter extends TypeAdapter<Anniversary> {
   }
 
   @override
-  void write(BinaryWriter writer, Anniversary obj) {
+  void write(BinaryWriter writer, Memo obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)
@@ -44,7 +44,7 @@ class AnniversaryAdapter extends TypeAdapter<Anniversary> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AnniversaryAdapter &&
+      other is MemoAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
