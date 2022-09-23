@@ -10,18 +10,18 @@ class Couple {
   final DateTime? selectedDate;
 
   @HiveField(1)
-  final Uint8List? backgroundImage;
+  final String? backgroundImage;
 
   @HiveField(2)
-  final Uint8List? selectedImage1;
+  final String? circleAvatar1;
 
   @HiveField(3)
-  final Uint8List? selectedImage2;
+  final String? circleAvatar2;
 
   Couple({
     this.selectedDate,
     this.backgroundImage,
-    this.selectedImage1,
-    this.selectedImage2,
+    this.circleAvatar1,
+    this.circleAvatar2,
   });
 }

@@ -17,7 +17,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:uandi/app/provider/image_provider.dart';
 
 void onHearthPressed(context, WidgetRef ref, selectedDate) async {
-  final DateTime now = DateTime.now();
+  // final DateTime now = DateTime.now();
 
   if (Platform.isIOS) {
     showCupertinoDialog(
@@ -143,24 +143,7 @@ void saveDate(WidgetRef ref) async {
   print('succees');
 }
 
-void saveBackgroundImage(WidgetRef ref) async {
-  final box = await Hive.openBox<Couple>('couple');
-  int id = 0;
-  box.put(
-    id,
-    Couple(
-      backgroundImage: ref.watch(backgroundImageProvider.state).state,
-    ),
-  );
-}
 
-Future pickBackgroundImage(ImageSource source) async {
-  XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
-  if (file != null) {
-    return await file.readAsBytes();
-  }
-  print('No image selected');
-}
 
 String dateFormatter({required DateTime date}) {
   final dateFormatter = DateFormat('yyyy.MM.dd');
@@ -188,59 +171,6 @@ String dateFormatter({required DateTime date}) {
 //       aspectRatioPresets: [CropAspectRatioPreset.ratio4x3],
 //     );
 
-pickAvatarImage() async {
-  XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
-  if (file != null) {
-    return await file.readAsBytes();
-  }
-  print('No image selected');
-}
-
-// 이미지 크롭
-Future<void> cropImage(
-    {required XFile pickedFile, bool isCircle = false}) async {
-  if (pickedFile != null) {
-    final croppedFile = await ImageCropper().cropImage(
-      cropStyle: isCircle ? CropStyle.circle : CropStyle.rectangle,
-      sourcePath: pickedFile.path,
-      compressFormat: ImageCompressFormat.jpg,
-      compressQuality: 100,
-      aspectRatioPresets: [
-        CropAspectRatioPreset.ratio3x2,
-      ],
-      uiSettings: [
-        AndroidUiSettings(
-            toolbarTitle: 'Cropper',
-            toolbarColor: Colors.deepOrange,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        IOSUiSettings(
-          title: 'Cropper',
-        ),
-      ],
-    );
-    if (croppedFile != null) {
-      // setState(() {
-      //    _croppedFile = croppedFile;
-      //  });
-    }
-  }
-}
-
-// 이미지 선택
-Future<void> selectImage() async {
-  final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-  if (pickedFile != null) {
-    // setState(() {
-    //   _pickedFile = pickedFile;
-    // });
-    cropImage(pickedFile: pickedFile);
-  }
-}
-
-
-
 
 // 기념일 추가
 void addMemo(context, WidgetRef ref) async{
@@ -256,14 +186,37 @@ void addMemo(context, WidgetRef ref) async{
   box.put(
     id,
     Memo(
-      selectedDate: ref.read(memoDateProvider),
-      text: ref.read(textProvider),
+      selectedDate: ref.watch(memoDateProvider),
+      text: ref.watch(textProvider),
       id: id,
-      color: ref.read(selectColorProvider),
+      color: ref.watch(selectColorProvider),
     ),
   );
   Navigator.of(context).pop();
 }
+
+// // 기념일 추가
+// void addMemo(context, WidgetRef ref) async{
+//   final box = await Hive.openBox<Memo>('memo');
+//   int id = 0;
+//
+//   if (box.isNotEmpty) {
+//     final prevItem = box.getAt(box.length - 1);
+//     if (prevItem != null) {
+//       id = prevItem.id + 1;
+//     }
+//   }
+//   box.put(
+//     id,
+//     Memo(
+//       selectedDate: ref.read(memoDateProvider),
+//       text: ref.read(textProvider),
+//       id: id,
+//       color: ref.read(selectColorProvider),
+//     ),
+//   );
+//   Navigator.of(context).pop();
+// }
 
 void deleteMemo(context, int id) async{
   final box = await Hive.openBox<Memo>('memo');

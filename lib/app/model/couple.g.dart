@@ -18,9 +18,9 @@ class CoupleAdapter extends TypeAdapter<Couple> {
     };
     return Couple(
       selectedDate: fields[0] as DateTime?,
-      backgroundImage: fields[1] as Uint8List?,
-      selectedImage1: fields[2] as Uint8List?,
-      selectedImage2: fields[3] as Uint8List?,
+      backgroundImage: fields[1] as String?,
+      circleAvatar1: fields[2] as String?,
+      circleAvatar2: fields[3] as String?,
     );
   }
 
@@ -33,9 +33,9 @@ class CoupleAdapter extends TypeAdapter<Couple> {
       ..writeByte(1)
       ..write(obj.backgroundImage)
       ..writeByte(2)
-      ..write(obj.selectedImage1)
+      ..write(obj.circleAvatar1)
       ..writeByte(3)
-      ..write(obj.selectedImage2);
+      ..write(obj.circleAvatar2);
   }
 
   @override

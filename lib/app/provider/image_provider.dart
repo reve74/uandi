@@ -11,8 +11,6 @@ final imageProvider = StateNotifierProvider<ImageNotifier, Couple>(
 class ImageNotifier extends StateNotifier<Couple> {
   ImageNotifier() : super(Couple());
 
-
-
   void saveBackgroundImage(WidgetRef ref) async {
     final box = await Hive.openBox<Couple>('couple');
     int id = 0;

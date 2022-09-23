@@ -1,8 +1,5 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-
 
 final now = DateTime.now();
 
@@ -14,10 +11,12 @@ final dateProvider = StateProvider<DateTime>(
   ),
 );
 
-final selectColorProvider = StateProvider<int>((ref) => 0);
-final textProvider = StateProvider<String>((ref) => '');
+final selectColorProvider = StateProvider.autoDispose<int>((ref) => 0);
 
-final memoDateProvider = StateProvider(
+//TODO: 상태 초기화 필요
+final textProvider = StateProvider<String>((ref) => '');
+//TODO: 상태 초기화 필요
+final memoDateProvider = StateProvider<DateTime>(
   (ref) => DateTime(
     now.year,
     now.month,
@@ -25,6 +24,6 @@ final memoDateProvider = StateProvider(
   ),
 );
 
-final backgroundImageProvider = StateProvider<Uint8List>((ref) => Uint8List(0));
-final selectedImage1Provider = StateProvider<Uint8List>((ref) => Uint8List(0));
-final selectedImage2Provider = StateProvider<Uint8List>((ref) => Uint8List(0));
+final backgroundImageProvider = StateProvider<String>((ref) => '');
+final selectedImage1Provider = StateProvider<String>((ref) => '');
+final selectedImage2Provider = StateProvider<String>((ref) => '');

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uandi/app/const/color_palette.dart';
 import 'package:uandi/app/const/kangwon.dart';
 import 'package:uandi/app/model/memo_model.dart';
 import 'package:uandi/app/utils/util.dart';
@@ -19,8 +18,7 @@ class MemoCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Container(
-        // height: 80,
-        height: 100,
+        height: 80,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: getBGClr(memo.color),
@@ -38,9 +36,6 @@ class MemoCard extends StatelessWidget {
                 memo.text,
                 style: Kangwon.black_s20_w500_h24,
               ),
-              Text(
-                memo.id.toString(),
-              )
             ],
           ),
         ),

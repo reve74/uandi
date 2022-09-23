@@ -14,6 +14,9 @@ class AddMemoScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // final TextEditingController controller = TextEditingController();
+    // final memoDate = ref.watch(memoDateProvider);
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -49,12 +52,12 @@ class AddMemoScreen extends ConsumerWidget {
                                     memoDateProvider,
                                     false,
                                   );
+                                  ref.watch(textProvider);
                                 },
                                 child: Consumer(
                                   builder: (context, ref, _) {
-                                    final DateTime selectedDate = ref
-                                        .watch(memoDateProvider.state)
-                                        .state;
+                                    final DateTime selectedDate =
+                                        ref.watch(memoDateProvider.state).state;
                                     final dateString =
                                         dateFormatter(date: selectedDate);
                                     return Padding(
@@ -71,14 +74,21 @@ class AddMemoScreen extends ConsumerWidget {
                             ],
                           ),
                           label('내용'),
-                          CustomTextFormField(hintText: '내용을 작성해주세요'),
+                          CustomTextFormField(
+                            hintText: '내용을 작성해주세요',
+                            // controller: controller,
+                          ),
                           eHeight(10),
                           label('색상'),
                           SelectColorWidget(),
                           Spacer(),
                           ElevatedButton(
                             onPressed: () async {
-                              addMemo(context, ref);
+                              addMemo(
+                                context,
+                                ref,
+                                // controller.text.trim(),
+                              );
                             },
                             child: const Padding(
                               padding: EdgeInsets.symmetric(vertical: 10.0),

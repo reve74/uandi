@@ -40,7 +40,9 @@ class CustomTextFormField extends ConsumerWidget {
       initialValue: label,
       maxLines: 10,
       onChanged: (value) {
-        ref.read(textProvider.notifier).state = value;
+        final printValue =  ref.read(textProvider.notifier).update((state) => value);
+        print(printValue);
+        // ref.read(textProvider.notifier).state = value;
       },
       style: Kangwon.black_s25_w400_h24,
     );
