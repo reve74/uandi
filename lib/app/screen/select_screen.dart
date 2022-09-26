@@ -12,8 +12,6 @@ class SelectScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-
     return Scaffold(
       backgroundColor: ColorPalette.pink,
       body: Padding(
@@ -44,11 +42,13 @@ class SelectScreen extends ConsumerWidget {
             InkWell(
               onTap: () {
                 // onHearthPressed(context, ref, selectedDate);
+                final date = ref.watch(dateProvider);
                 daySelect(
                   context,
                   ref,
-                  dateProvider,
                   true,
+                  memoDateProvider,
+                  dateProvider,
                 );
               },
               child: Row(

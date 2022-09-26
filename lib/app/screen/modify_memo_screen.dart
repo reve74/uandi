@@ -4,13 +4,19 @@ import 'package:uandi/app/common/widgets.dart';
 import 'package:uandi/app/const/color_palette.dart';
 import 'package:uandi/app/const/kangwon.dart';
 import 'package:uandi/app/const/size_helper.dart';
+import 'package:uandi/app/model/memo_model.dart';
 import 'package:uandi/app/provider/counter_provider.dart';
 import 'package:uandi/app/utils/util.dart';
 import 'package:uandi/app/widget/custom_textformfield.dart';
 import 'package:uandi/app/widget/selecrt_color_widget.dart';
 
-class AddMemoScreen extends ConsumerWidget {
-  const AddMemoScreen({Key? key}) : super(key: key);
+class ModifyMemoScreen extends ConsumerWidget {
+  final Memo memo;
+
+  const ModifyMemoScreen({
+    required this.memo,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,7 +28,7 @@ class AddMemoScreen extends ConsumerWidget {
         appBar: AppBar(
           backgroundColor: ColorPalette.pink,
           elevation: 0,
-          title: const Text('기념일 추가', style: Kangwon.white_s30_bold_h24),
+          title: const Text('수정', style: Kangwon.white_s30_bold_h24),
           centerTitle: true,
         ),
         body: SafeArea(
@@ -72,20 +78,21 @@ class AddMemoScreen extends ConsumerWidget {
                             ],
                           ),
                           label('내용'),
-                          CustomTextFormField(
-                            hintText: '내용을 작성해주세요',
-                            // controller: controller,
-                          ),
+                          CustomTextFormField(label: memo.text),
                           eHeight(10),
                           label('색상'),
-                          SelectColorWidget(),
+                          SelectColorWidget(
+                            index: memo.color,
+                          ),
                           Spacer(),
                           customElevatedBtn(
-                            text: '추가하기',
+                            text: '수정하기',
                             onPressed: () {
                               if (ref.watch(textProvider).isNotEmpty) {
-                                addMemo(
+                                modifyMemo(
                                   context,
+                                  memo.id,
+                                  memo,
                                   ref,
                                 );
                               } else {

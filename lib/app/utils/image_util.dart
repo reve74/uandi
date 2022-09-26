@@ -26,7 +26,6 @@ class ImageUtil {
     print('No image selected');
   }
 
-
   pickAvatarImage() async {
     XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (file != null) {
@@ -36,46 +35,50 @@ class ImageUtil {
   }
 
 // 이미지 크롭
-  Future<void> cropImage(
-      {required XFile pickedFile, bool isCircle = false}) async {
-    if (pickedFile != null) {
-      final croppedFile = await ImageCropper().cropImage(
-        cropStyle: isCircle ? CropStyle.circle : CropStyle.rectangle,
-        sourcePath: pickedFile.path,
-        compressFormat: ImageCompressFormat.jpg,
-        compressQuality: 100,
-        aspectRatioPresets: [
-          CropAspectRatioPreset.ratio3x2,
-        ],
-        uiSettings: [
-          AndroidUiSettings(
-              toolbarTitle: 'Cropper',
-              toolbarColor: Colors.deepOrange,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false),
-          IOSUiSettings(
-            title: 'Cropper',
-          ),
-        ],
-      );
-      if (croppedFile != null) {
-        // setState(() {
-        //    _croppedFile = croppedFile;
-        //  });
-      }
-    }
-  }
+//   Future<void> cropImage({
+//     required XFile pickedFile,
+//     bool isCircle = false,
+//   }) async {
+//     if (pickedFile != null) {
+//       final croppedFile = await ImageCropper().cropImage(
+//         cropStyle: isCircle ? CropStyle.circle : CropStyle.rectangle,
+//         sourcePath: pickedFile.path,
+//         compressFormat: ImageCompressFormat.jpg,
+//         // maxHeight: 200,
+//         // maxWidth: 400,
+//         compressQuality: 100,
+//         aspectRatioPresets: [
+//           CropAspectRatioPreset.ratio3x2,
+//         ],
+//         uiSettings: [
+//           AndroidUiSettings(
+//               toolbarTitle: 'Cropper',
+//               toolbarColor: Colors.deepOrange,
+//               toolbarWidgetColor: Colors.white,
+//               initAspectRatio: CropAspectRatioPreset.original,
+//               lockAspectRatio: false),
+//           IOSUiSettings(
+//             title: 'Cropper',
+//           ),
+//         ],
+//       );
+//       if (croppedFile != null) {
+//         // setState(() {
+//         //    _croppedFile = croppedFile;
+//         //  });
+//       }
+//     }
+//   }
 
 // 이미지 선택
-  Future<void> selectImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      // setState(() {
-      //   _pickedFile = pickedFile;
-      // });
-      cropImage(pickedFile: pickedFile);
-    }
-  }
-
+//   Future<void> selectImage(BuildContext context) async {
+//     final pickedFile =
+//         await ImagePicker().pickImage(source: ImageSource.gallery);
+//     if (pickedFile != null) {
+//       // setState(() {
+//       //   _pickedFile = pickedFile;
+//       // });
+//       cropImage(pickedFile: pickedFile);
+//     }
+//   }
 }

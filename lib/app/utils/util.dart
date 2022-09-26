@@ -1,20 +1,17 @@
 import 'dart:io';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:uandi/app/const/color_palette.dart';
 import 'package:uandi/app/const/kangwon.dart';
 import 'package:uandi/app/model/memo_model.dart';
 import 'package:uandi/app/model/couple.dart';
 import 'package:uandi/app/provider/counter_provider.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:typed_data';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:uandi/app/provider/image_provider.dart';
+import 'package:uandi/app/screen/memo_screen.dart';
 
 void onHearthPressed(context, WidgetRef ref, selectedDate) async {
   // final DateTime now = DateTime.now();
@@ -67,8 +64,9 @@ void onHearthPressed(context, WidgetRef ref, selectedDate) async {
 void daySelect(
   context,
   WidgetRef ref,
-  StateProvider provider,
   bool isSelectedDate,
+  AutoDisposeStateProvider? autoDisposeStateProvider,
+  StateProvider? stateProvider,
 ) async {
   final DateTime now = DateTime.now();
   DateTime selectedDate = DateTime(
@@ -89,15 +87,25 @@ void daySelect(
             height: 300.0,
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,
-              initialDateTime: ref.read(provider.state).state,
+              initialDateTime: ref
+                  .watch(isSelectedDate == true
+                      ? stateProvider!.state
+                      : autoDisposeStateProvider!.state)
+                  .state,
               //!= null ? selectedDate : ref.watch(dateProvider.state).state,
-              maximumDate: isSelectedDate == true ? DateTime(
-                now.year,
-                now.month,
-                now.day,
-              ) : null,
+              maximumDate: isSelectedDate == true
+                  ? DateTime(
+                      now.year,
+                      now.month,
+                      now.day,
+                    )
+                  : null,
               onDateTimeChanged: (DateTime date) async {
-                ref.read(provider.state).state = date;
+                ref
+                    .watch(isSelectedDate == true
+                        ? stateProvider!.state
+                        : autoDisposeStateProvider!.state)
+                    .state = date;
               },
             ),
           ),
@@ -109,12 +117,20 @@ void daySelect(
     print('button');
     DateTime? date = await showDatePicker(
       context: context,
-      initialDate: ref.watch(provider.state).state,
+      initialDate: ref
+          .watch(isSelectedDate == true
+              ? stateProvider!.state
+              : autoDisposeStateProvider!.state)
+          .state,
       firstDate: DateTime(1900),
       lastDate: selectedDate,
     );
     if (date == null) return;
-    ref.watch(provider.state).state = date;
+    ref
+        .watch(isSelectedDate == true
+            ? stateProvider!.state
+            : autoDisposeStateProvider!.state)
+        .state = date;
   }
 }
 
@@ -132,18 +148,11 @@ void saveDate(WidgetRef ref) async {
   int id = 0;
   box.put(
     id,
-    Couple(
-      selectedDate: ref.watch(dateProvider.state).state,
-      // backgroundImage: ref.watch(backgroundImageProvider.state).state,
-      // selectedImage1: ref.watch(selectedImage1Provider.state).state,
-      // selectedImage2: ref.watch(selectedImage2Provider.state).state,
-    ),
+    Couple(selectedDate: ref.watch(dateProvider.state).state),
   );
   print(box.values);
   print('succees');
 }
-
-
 
 String dateFormatter({required DateTime date}) {
   final dateFormatter = DateFormat('yyyy.MM.dd');
@@ -171,18 +180,37 @@ String dateFormatter({required DateTime date}) {
 //       aspectRatioPresets: [CropAspectRatioPreset.ratio4x3],
 //     );
 
-
 // 기념일 추가
-void addMemo(context, WidgetRef ref) async{
+void addMemo(context, WidgetRef ref) async {
   final box = await Hive.openBox<Memo>('memo');
   int id = 0;
-
   if (box.isNotEmpty) {
     final prevItem = box.getAt(box.length - 1);
     if (prevItem != null) {
       id = prevItem.id + 1;
     }
+    box.put(
+      id,
+      Memo(
+        selectedDate: ref.watch(memoDateProvider),
+        text: ref.watch(textProvider),
+        id: id,
+        color: ref.watch(selectColorProvider),
+      ),
+    );
+    print(box.length);
+    Navigator.of(context).pop();
   }
+}
+
+// 기념일 수정
+void modifyMemo(
+  context,
+  int id,
+  Memo memo,
+  WidgetRef ref,
+) async {
+  final box = await Hive.openBox<Memo>('memo');
   box.put(
     id,
     Memo(
@@ -192,7 +220,13 @@ void addMemo(context, WidgetRef ref) async{
       color: ref.watch(selectColorProvider),
     ),
   );
-  Navigator.of(context).pop();
+  print(box.length);
+  Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MemoScreen(memo: memo),
+      ),
+      (route) => false);
 }
 
 // // 기념일 추가
@@ -218,7 +252,7 @@ void addMemo(context, WidgetRef ref) async{
 //   Navigator.of(context).pop();
 // }
 
-void deleteMemo(context, int id) async{
+void deleteMemo(context, int id) async {
   final box = await Hive.openBox<Memo>('memo');
   box.delete(id);
   Navigator.of(context).pop();
@@ -239,4 +273,31 @@ Color getBGClr(int no) {
     default:
       return ColorPalette.beige;
   }
+}
+
+void flushBar(BuildContext context) {
+  Flushbar(
+    messageText: const Text(
+      '내용을 작성해주세요.',
+      style: Kangwon.black_s20_w600_h24,
+    ),
+    flushbarPosition: FlushbarPosition.TOP,
+    margin: EdgeInsets.symmetric(
+      horizontal: MediaQuery.of(context).size.width * .1,
+    ),
+    backgroundColor: ColorPalette.white,
+    borderRadius: BorderRadius.circular(15),
+    borderColor: ColorPalette.peach,
+    duration: const Duration(
+      milliseconds: 2000,
+    ),
+    // boxShadows: [
+    //   BoxShadow(
+    //     color: ColorPalette.lightGray1,
+    //     spreadRadius: 3,
+    //     blurRadius: 5,
+    //     offset: Offset(0,2),
+    //   ),
+    // ],
+  ).show(context);
 }

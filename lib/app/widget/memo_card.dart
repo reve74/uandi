@@ -18,7 +18,7 @@ class MemoCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Container(
-        height: 80,
+        height: MediaQuery.of(context).size.height * 0.11,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: getBGClr(memo.color),
@@ -35,6 +35,8 @@ class MemoCard extends StatelessWidget {
               Text(
                 memo.text,
                 style: Kangwon.black_s20_w500_h24,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

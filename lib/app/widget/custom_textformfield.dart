@@ -20,6 +20,9 @@ class CustomTextFormField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (label != null) {
+      ref.watch(textProvider.notifier).update((state) => label!);
+    }
     return TextFormField(
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
@@ -27,20 +30,21 @@ class CustomTextFormField extends ConsumerWidget {
           borderRadius: BorderRadius.circular(8.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: ColorPalette.lightGray),
+          borderSide: readOnly != true ? const BorderSide(color: ColorPalette.lightGray) : BorderSide.none,
           borderRadius: BorderRadius.circular(8.0),
         ),
         hintText: hintText,
         hintStyle: Kangwon.lightGray_s35_w600_h24,
         contentPadding: const EdgeInsets.all(8),
-        // filled: true,
-        // fillColor: getBGClr(bgColor!),
+        filled: readOnly == true ? true : null,
+        fillColor: readOnly == true ? getBGClr(bgColor!) : null,
       ),
       readOnly: readOnly ?? false,
       initialValue: label,
-      maxLines: 10,
+      maxLines: 6,
       onChanged: (value) {
-        final printValue =  ref.read(textProvider.notifier).update((state) => value);
+        final printValue =
+            ref.watch(textProvider.notifier).update((state) => value);
         print(printValue);
         // ref.read(textProvider.notifier).state = value;
       },

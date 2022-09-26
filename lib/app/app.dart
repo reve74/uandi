@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uandi/app/model/couple.dart';
 import 'package:uandi/app/screen/home_screen.dart';
+import 'package:uandi/app/screen/memo_screen.dart';
 import 'package:uandi/app/screen/select_screen.dart';
 
 class MyApp extends StatelessWidget {

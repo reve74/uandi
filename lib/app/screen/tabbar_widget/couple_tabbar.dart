@@ -15,6 +15,7 @@ import 'package:uandi/app/screen/add_memo_screen.dart';
 import 'package:uandi/app/screen/memo_screen.dart';
 import 'package:uandi/app/utils/image_util.dart';
 import 'package:uandi/app/utils/util.dart';
+import 'package:uandi/app/widget/bgimage_widget.dart';
 import 'package:uandi/app/widget/memo_card.dart';
 
 class CoupleTabBar extends ConsumerStatefulWidget {
@@ -27,9 +28,6 @@ class CoupleTabBar extends ConsumerStatefulWidget {
 class _CoupleTabBarState extends ConsumerState {
   XFile? _pickedFile;
 
-  File? image;
-
-  CroppedFile? _croppedFile;
 
   @override
   Widget build(BuildContext context) {
@@ -40,57 +38,7 @@ class _CoupleTabBarState extends ConsumerState {
     );
     final now = DateTime.now();
 
-    Future<void> _cropImage() async {
-      if (_pickedFile != null) {
-        final croppedFile = await ImageCropper().cropImage(
-          // cropStyle: CropStyle.circle,
-          sourcePath: _pickedFile!.path,
-          compressFormat: ImageCompressFormat.jpg,
-          compressQuality: 100,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.ratio3x2,
-          ],
-          uiSettings: [
-            AndroidUiSettings(
-                toolbarTitle: 'Cropper',
-                toolbarColor: Colors.deepOrange,
-                toolbarWidgetColor: Colors.white,
-                initAspectRatio: CropAspectRatioPreset.original,
-                lockAspectRatio: false),
-            IOSUiSettings(
-              title: 'Cropper',
-            ),
-          ],
-        );
-        if (croppedFile != null) {
-          setState(() {
-            _croppedFile = croppedFile;
-          });
-        }
-      }
-    }
 
-    Future<void> _uploadImage() async {
-      final pickedFile =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        setState(() {
-          _pickedFile = pickedFile;
-        });
-        _cropImage();
-      }
-    }
-
-    Widget _image() {
-      if (_croppedFile != null) {
-        return Container(
-            height: MediaQuery.of(context).size.height * .3,
-            width: MediaQuery.of(context).size.width,
-            child: Image.file(File(_croppedFile!.path)));
-      } else {
-        return _backgroundImage(context);
-      }
-    }
 
     return SingleChildScrollView(
       child: SafeArea(
@@ -98,35 +46,31 @@ class _CoupleTabBarState extends ConsumerState {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             eHeight(20),
-            GestureDetector(
-                onTap: () async {
-                  _uploadImage();
-                },
-                child: _image()),
+            BgImageWidget(),
             eHeight(10),
             ValueListenableBuilder(
               valueListenable: Hive.box<Couple>('couple').listenable(),
               builder: (context, Box<Couple> box, child) {
                 final item = box.get(0);
-                if (item == null) {
-                  return _dayCount(
-                    context,
-                    ref,
-                    selectedDate,
-                    Text(
-                      '${DateTime(
-                            now.year,
-                            now.month,
-                            now.day,
-                          ).difference(selectedDate).inDays + 1}',
-                      style: Kangwon.black_s35_w400_h24,
-                    ),
-                  );
-                }
+                // if (item == null) {
+                //   return _dayCount(
+                //     context,
+                //     ref,
+                //     selectedDate,
+                //     Text(
+                //       '${DateTime(
+                //             now.year,
+                //             now.month,
+                //             now.day,
+                //           ).difference(selectedDate).inDays + 1}',
+                //       style: Kangwon.black_s35_w400_h24,
+                //     ),
+                //   );
+                // }
 
                 final dateFormatter = DateFormat('yyyy.MM.dd');
-                final dateString =
-                    dateFormatter.format(item.selectedDate as DateTime);
+                // final dateString =
+                //     dateFormatter.format(item.selectedDate as DateTime);
 
                 return _dayCount(
                   context,
@@ -137,7 +81,7 @@ class _CoupleTabBarState extends ConsumerState {
                           now.year,
                           now.month,
                           now.day,
-                        ).difference(item.selectedDate as DateTime).inDays + 1}',
+                        ).difference(item!.selectedDate as DateTime).inDays + 1}',
                     style: Kangwon.black_s35_w400_h24,
                   ),
                 );
@@ -193,16 +137,7 @@ class _CoupleTabBarState extends ConsumerState {
     );
   }
 
-  Widget _backgroundImage(BuildContext context) {
-    return Container(
-      color: Colors.blue,
-      height: MediaQuery.of(context).size.height * 0.3,
-      child: Image.asset(
-        'assets/img/couple.jpg',
-        fit: BoxFit.cover,
-      ),
-    );
-  }
+
 
   Widget _dayCount(context, ref, selectedDate, Text day) {
     return Container(
@@ -213,7 +148,7 @@ class _CoupleTabBarState extends ConsumerState {
           GestureDetector(
             onTap: () async {
               await ImageUtil().pickAvatarImage();
-              selectImage();
+              // selectImage();
             },
             child: Image.asset(
               'assets/img/smile.png',
@@ -251,14 +186,4 @@ class _CoupleTabBarState extends ConsumerState {
     );
   }
 
-  Future<void> selectImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _pickedFile = pickedFile;
-      });
-      ImageUtil().cropImage(pickedFile: pickedFile);
-    }
-  }
 }
