@@ -11,7 +11,6 @@ import 'package:uandi/app/const/kangwon.dart';
 import 'package:uandi/app/model/memo_model.dart';
 import 'package:uandi/app/model/couple.dart';
 import 'package:uandi/app/provider/counter_provider.dart';
-import 'package:uandi/app/screen/memo_screen.dart';
 
 void onHearthPressed(context, WidgetRef ref, selectedDate) async {
   // final DateTime now = DateTime.now();
@@ -160,97 +159,31 @@ String dateFormatter({required DateTime date}) {
   return dateString;
 }
 
-// pickMedia(Future<File> Function(File file)? cropImage) async {
-//   final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-//   if (pickedFile == null) {
-//     return null;
-//   }
-//   if (pickedFile == null) return null;
-//   if (cropImage == null) {
-//     return File(pickedFile.path);
-//   } else {
-//     final file = File(pickedFile.path);
-//     return cropImage(file);
-//   }
-// }
-//
-// Future<File> cropSquareImage(File imageFile) async => await ImageCropper().cropImage(
-//       sourcePath: imageFile.path,
-//       aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-//       aspectRatioPresets: [CropAspectRatioPreset.ratio4x3],
-//     );
+
 
 // 기념일 추가
-void addMemo(context, WidgetRef ref) async {
+void addMemo(context, WidgetRef ref, TextEditingController controller) async{
   final box = await Hive.openBox<Memo>('memo');
   int id = 0;
+
   if (box.isNotEmpty) {
     final prevItem = box.getAt(box.length - 1);
     if (prevItem != null) {
       id = prevItem.id + 1;
     }
-    box.put(
-      id,
-      Memo(
-        selectedDate: ref.watch(memoDateProvider),
-        text: ref.watch(textProvider),
-        id: id,
-        color: ref.watch(selectColorProvider),
-      ),
-    );
-    print(box.length);
-    Navigator.of(context).pop();
   }
-}
-
-// 기념일 수정
-void modifyMemo(
-  context,
-  int id,
-  Memo memo,
-  WidgetRef ref,
-) async {
-  final box = await Hive.openBox<Memo>('memo');
   box.put(
     id,
     Memo(
-      selectedDate: ref.watch(memoDateProvider),
-      text: ref.watch(textProvider),
+      selectedDate: ref.read(memoDateProvider),
+      // text: ref.watch(textProvider),
+      text: controller.text.trim(),
       id: id,
-      color: ref.watch(selectColorProvider),
+      color: ref.read(selectColorProvider),
     ),
   );
-  print(box.length);
-  Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MemoScreen(memo: memo),
-      ),
-      (route) => false);
+  Navigator.of(context).pop();
 }
-
-// // 기념일 추가
-// void addMemo(context, WidgetRef ref) async{
-//   final box = await Hive.openBox<Memo>('memo');
-//   int id = 0;
-//
-//   if (box.isNotEmpty) {
-//     final prevItem = box.getAt(box.length - 1);
-//     if (prevItem != null) {
-//       id = prevItem.id + 1;
-//     }
-//   }
-//   box.put(
-//     id,
-//     Memo(
-//       selectedDate: ref.read(memoDateProvider),
-//       text: ref.read(textProvider),
-//       id: id,
-//       color: ref.read(selectColorProvider),
-//     ),
-//   );
-//   Navigator.of(context).pop();
-// }
 
 void deleteMemo(context, int id) async {
   final box = await Hive.openBox<Memo>('memo');
@@ -291,13 +224,32 @@ void flushBar(BuildContext context) {
     duration: const Duration(
       milliseconds: 2000,
     ),
-    // boxShadows: [
-    //   BoxShadow(
-    //     color: ColorPalette.lightGray1,
-    //     spreadRadius: 3,
-    //     blurRadius: 5,
-    //     offset: Offset(0,2),
-    //   ),
-    // ],
+
   ).show(context);
 }
+
+// 기념일 수정
+// void modifyMemo(
+//   context,
+//   int id,
+//   Memo memo,
+//   WidgetRef ref,
+// ) async {
+//   final box = await Hive.openBox<Memo>('memo');
+//   box.put(
+//     id,
+//     Memo(
+//       selectedDate: ref.watch(memoDateProvider),
+//       text: ref.watch(textProvider),
+//       id: id,
+//       color: ref.watch(selectColorProvider),
+//     ),
+//   );
+//   print(box.length);
+//   Navigator.pushAndRemoveUntil(
+//       context,
+//       MaterialPageRoute(
+//         builder: (context) => MemoScreen(memo: memo),
+//       ),
+//       (route) => false);
+// }

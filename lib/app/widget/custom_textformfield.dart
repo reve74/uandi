@@ -10,11 +10,13 @@ class CustomTextFormField extends ConsumerWidget {
   final bool? readOnly;
   final String? label;
   final int? bgColor;
+  final TextEditingController? controller;
   const CustomTextFormField({
     this.hintText,
     this.label,
     this.readOnly,
     this.bgColor,
+    this.controller,
     Key? key,
   }) : super(key: key);
 
@@ -42,12 +44,13 @@ class CustomTextFormField extends ConsumerWidget {
       readOnly: readOnly ?? false,
       initialValue: label,
       maxLines: 6,
-      onChanged: (value) {
-        final printValue =
-            ref.watch(textProvider.notifier).update((state) => value);
-        print(printValue);
-        // ref.read(textProvider.notifier).state = value;
-      },
+      controller: controller,
+      // onChanged: (value) {
+      //   final printValue =
+      //       ref.watch(textProvider.notifier).update((state) => value);
+      //   print(printValue);
+      //   // ref.read(textProvider.notifier).state = value;
+      // },
       style: Kangwon.black_s25_w400_h24,
     );
   }

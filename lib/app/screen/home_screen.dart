@@ -4,6 +4,7 @@ import 'package:uandi/app/const/color_palette.dart';
 import 'package:uandi/app/const/kangwon.dart';
 import 'package:uandi/app/screen/tabbar_widget/couple_tabbar.dart';
 import 'package:uandi/app/screen/tabbar_widget/story_tabbar.dart';
+import 'package:uandi/app/utils/image_util.dart';
 import 'package:uandi/app/utils/util.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -15,9 +16,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen>
     with TickerProviderStateMixin {
-  // final valueProvider = Provider<int>((ref) {
-  //   return 36;
-  // });
 
   late TabController _tabController;
 
@@ -148,26 +146,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         const Spacer(flex: 10),
         _drawerBtn(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.of(context).pop();
             onHearthPressed(context, ref, selectedDate);
           },
           text: '날짜 변경하기',
         ),
         _divider(),
         _drawerBtn(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).pop();
+            ImageUtil().selectImage(
+              context: context,
+              imageType: 3,
+            );
+            _tabController.animateTo(0);
+          },
           text: '배경화면 변경하기',
         ),
         _divider(),
         _drawerBtn(
-          onTap: () {},
+          onTap: () {
+            ImageUtil().deleteImage(context, 1);
+            _tabController.animateTo(0);
+          },
           text: '이미지 초기화하기',
         ),
         _divider(),
-        // _drawerBtn(
-        //   onTap: () {},
-        //   text: '날짜 변경하기',
-        // ),
         const Spacer(flex: 500),
       ],
     );

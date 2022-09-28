@@ -10,7 +10,8 @@ import 'package:uandi/app/widget/custom_textformfield.dart';
 import 'package:uandi/app/widget/selecrt_color_widget.dart';
 
 class AddMemoScreen extends ConsumerWidget {
-  const AddMemoScreen({Key? key}) : super(key: key);
+  AddMemoScreen({Key? key}) : super(key: key);
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,7 +51,7 @@ class AddMemoScreen extends ConsumerWidget {
                                     memoDateProvider,
                                     dateProvider,
                                   );
-                                  ref.watch(textProvider);
+                                  // ref.watch(textProvider);
                                 },
                                 child: Consumer(
                                   builder: (context, ref, _) {
@@ -74,7 +75,7 @@ class AddMemoScreen extends ConsumerWidget {
                           label('내용'),
                           CustomTextFormField(
                             hintText: '내용을 작성해주세요',
-                            // controller: controller,
+                            controller: controller,
                           ),
                           eHeight(10),
                           label('색상'),
@@ -83,10 +84,14 @@ class AddMemoScreen extends ConsumerWidget {
                           customElevatedBtn(
                             text: '추가하기',
                             onPressed: () {
-                              if (ref.watch(textProvider).isNotEmpty) {
+                              // print(ref.watch(textProvider));
+                              // print(controller.text);
+                              // if (ref.read(textProvider).isNotEmpty) {
+                              if (controller.text.isNotEmpty) {
                                 addMemo(
                                   context,
                                   ref,
+                                  controller,
                                 );
                               } else {
                                 flushBar(context);

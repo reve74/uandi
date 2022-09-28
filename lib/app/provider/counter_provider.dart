@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final now = DateTime.now();
@@ -23,6 +22,3 @@ final memoDateProvider = StateProvider.autoDispose<DateTime>(
   ),
 );
 
-final backgroundImageProvider = StateProvider<String>((ref) => '');
-final selectedImage1Provider = StateProvider<String>((ref) => '');
-final selectedImage2Provider = StateProvider<String>((ref) => '');

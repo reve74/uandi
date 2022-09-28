@@ -6,8 +6,12 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uandi/app/const/color_palette.dart';
+import 'package:uandi/app/const/kangwon.dart';
+import 'package:uandi/app/const/size_helper.dart';
 import 'package:uandi/app/model/couple.dart';
 import 'package:uandi/app/utils/image_util.dart';
+import 'package:uandi/app/utils/util.dart';
 
 class BgImageWidget extends ConsumerStatefulWidget {
   BgImageWidget({Key? key}) : super(key: key);
@@ -17,111 +21,155 @@ class BgImageWidget extends ConsumerStatefulWidget {
 }
 
 class _BgImageWidgetState extends ConsumerState<BgImageWidget> {
-  XFile? _pickedFile;
-
-  File? image;
-
-  CroppedFile? _croppedFile;
+  // XFile? _pickedFile;
+  // File? image;
+  // CroppedFile? _croppedFile;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        selectImage(context);
-      },
-      child: ValueListenableBuilder(
-        valueListenable: Hive.box<Couple>('couple').listenable(),
-        builder: (context, Box<Couple> box, child) {
-          final item = box.get(1);
-          if(item == null) {
-            return _backgroundImage(context);
-          }
-          if (item.backgroundImage == null) {
-            print(item.backgroundImage);
-            return _backgroundImage(context);
-          }
-          print(item.backgroundImage);
+    final now = DateTime.now();
+    DateTime selectedDate = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    );
 
-          return Container(
-            height: MediaQuery.of(context).size.height * .3,
-            width: MediaQuery.of(context).size.width,
-            child: Image.file(
-              File(item.backgroundImage!),
-              fit: BoxFit.cover,
-            ),
-          );
-        },
-      ),
+    return Column(
+      children: [
+        ValueListenableBuilder(
+          valueListenable: Hive.box<Couple>('couple').listenable(),
+          builder: (context, Box<Couple> box, child) {
+            final item = box.get(3);
+            if (item == null) {
+              return _backgroundImage(context);
+            }
+            // if (item.backgroundImage == null) {
+            //   print(item.backgroundImage);
+            //   return _backgroundImage(context);
+            // }
+
+            return GestureDetector(
+              onTap: () {
+                ImageUtil().selectImage(
+                  context: context,
+                  imageType: 3,
+                );
+              },
+              child: Container(
+                height: 250,
+                width: MediaQuery.of(context).size.width,
+                child: Image.file(
+                  File(item.backgroundImage!),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },
+        ),
+        eHeight(10),
+        SizedBox(
+          height: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _circleAvatar(id: 1),
+              ValueListenableBuilder(
+                valueListenable: Hive.box<Couple>('couple').listenable(),
+                builder: (context, Box<Couple> box, child) {
+                  final item = box.get(0);
+                  return _dayCount(
+                    context,
+                    ref,
+                    selectedDate,
+                    Text(
+                      '${DateTime(
+                            now.year,
+                            now.month,
+                            now.day,
+                          ).difference(item!.selectedDate as DateTime).inDays + 1}',
+                      style: Kangwon.black_s35_w400_h24,
+                    ),
+                  );
+                },
+              ),
+              _circleAvatar(id: 2),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget smile() {
+    return Image.asset(
+      'assets/img/smile.png',
+      height: 80,
     );
   }
 
   Widget _backgroundImage(BuildContext context) {
-    return Container(
-      color: Colors.blue,
-      height: MediaQuery.of(context).size.height * 0.3,
-      child: Image.asset(
-        'assets/img/couple.jpg',
-        fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        ImageUtil().selectImage(
+          context: context,
+          imageType: 3,
+        );
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.3,
+        width: MediaQuery.of(context).size.width,
+        child: Image.asset(
+          'assets/img/couple.jpg',
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
 
-  Future<void> selectImage(BuildContext context) async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _pickedFile = pickedFile;
-      });
-      // _pickedFile = pickedFile;
-
-      cropImage();
-    }
+  Widget _dayCount(context, ref, selectedDate, Text day) {
+    return Column(
+      children: [
+        IconButton(
+          iconSize: 55,
+          onPressed: () {
+            onHearthPressed(context, ref, selectedDate);
+          },
+          padding: EdgeInsets.zero,
+          constraints: BoxConstraints(),
+          icon: const Icon(
+            Icons.favorite,
+            color: ColorPalette.point,
+          ),
+        ),
+        day,
+      ],
+    );
   }
 
-  Future<void> cropImage({
-    bool isCircle = false,
-  }) async {
-    if (_pickedFile != null) {
-      final croppedFile = await ImageCropper().cropImage(
-        cropStyle: isCircle ? CropStyle.circle : CropStyle.rectangle,
-        sourcePath: _pickedFile!.path,
-        compressFormat: ImageCompressFormat.jpg,
-        // maxHeight: 200,
-        // maxWidth: 400,
-        compressQuality: 100,
-        aspectRatioPresets: [
-          CropAspectRatioPreset.ratio3x2,
-        ],
-        uiSettings: [
-          AndroidUiSettings(
-              toolbarTitle: 'Cropper',
-              toolbarColor: Colors.deepOrange,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false),
-          IOSUiSettings(
-            title: 'Cropper',
-          ),
-        ],
-      );
-      if (croppedFile != null) {
-        // _croppedFile = croppedFile;
-        setState(() {
-          _croppedFile = croppedFile;
-        });
-        print(_croppedFile);
-      }
-      final box = await Hive.openBox<Couple>('couple');
-      int id = 1;
-      box.put(
-        id,
-        Couple(backgroundImage: _croppedFile!.path),
-      );
-      print('success');
-      // setState(() {
-      //    _croppedFile = croppedFile;
-      //  });
-    }
+  Widget _circleAvatar({required int id}) {
+    return GestureDetector(
+      onTap: () => ImageUtil().selectImage(
+        context: context,
+        imageType: id,
+        isCircle: true,
+      ),
+      child: ValueListenableBuilder(
+        valueListenable: Hive.box<Couple>('couple').listenable(),
+        builder: (context, Box<Couple> box, child) {
+          final item = box.get(id);
+          if (item == null) {
+            return smile();
+          }
+          return CircleAvatar(
+            backgroundImage: FileImage(
+              File(
+                id == 1 ? item.circleAvatar1! : item.circleAvatar2!,
+              ),
+            ),
+            radius: 40,
+          );
+        },
+      ),
+    );
   }
 }

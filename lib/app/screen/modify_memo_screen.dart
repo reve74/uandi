@@ -89,12 +89,12 @@ class ModifyMemoScreen extends ConsumerWidget {
                             text: '수정하기',
                             onPressed: () {
                               if (ref.watch(textProvider).isNotEmpty) {
-                                modifyMemo(
-                                  context,
-                                  memo.id,
-                                  memo,
-                                  ref,
-                                );
+                                // modifyMemo(
+                                //   context,
+                                //   memo.id,
+                                //   memo,
+                                //   ref,
+                                // );
                               } else {
                                 flushBar(context);
                               }
