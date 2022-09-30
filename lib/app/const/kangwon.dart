@@ -39,7 +39,8 @@ class Kangwon {
 
   static const lightPink1_s35_w600_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.lightPink1, fontSize: 50, fontWeight: FontWeight.w600, height: 24);
 
-  static const lightGray_s35_w600_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.lightGray, fontSize: 20, fontWeight: FontWeight.w400, height: 24);
+  static const lightGray_s20_w600_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.lightGray, fontSize: 20, fontWeight: FontWeight.w400, height: 24);
+  static const lightGray_s17_w400_h24 = CustomTextStyle(fontFamily: kangwon, color: ColorPalette.lightGray, fontSize: 17, fontWeight: FontWeight.w400, height: 24);
 
 
 

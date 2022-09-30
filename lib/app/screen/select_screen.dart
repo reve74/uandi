@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:uandi/app/const/color_palette.dart';
 import 'package:uandi/app/const/kangwon.dart';
 import 'package:uandi/app/const/size_helper.dart';
-import 'package:uandi/app/provider/counter_provider.dart';
+import 'package:uandi/app/provider/providers.dart';
 import 'package:uandi/app/utils/util.dart';
 
 class SelectScreen extends ConsumerWidget {
@@ -79,8 +79,8 @@ class SelectScreen extends ConsumerWidget {
                 //     MaterialPageRoute(builder: (context) => HomeScreen()));
               },
               child: Container(
-                width: 80,
-                height: 80,
+                width: 75,
+                height: 75,
                 decoration: const BoxDecoration(
                     color: ColorPalette.white, shape: BoxShape.circle),
                 child: const Icon(

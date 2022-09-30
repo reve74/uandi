@@ -22,16 +22,17 @@ class DayCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Text('${story[index].toString()} 일', style: Kangwon.black_s20_w400_h24,),
               Text(
                 storyDay,
-                style: Kangwon.black_s20_w600_h24,
+                style: dDay.isNotEmpty ? Kangwon.black_s20_w600_h24 : Kangwon.lightGray_s20_w600_h24,
               ),
               eHeight(3),
-              Text(date, style: Kangwon.black_s17_w400_h24,),
+              Text(date, style: dDay.isNotEmpty ? Kangwon.black_s17_w400_h24 : Kangwon.lightGray_s17_w400_h24,),
             ],
           ),
           Text(dDay, style: Kangwon.point_s20_w400_h24,),

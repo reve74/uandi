@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uandi/app/const/color_palette.dart';
 import 'package:uandi/app/const/kangwon.dart';
-import 'package:uandi/app/provider/counter_provider.dart';
+import 'package:uandi/app/provider/providers.dart';
 import 'package:uandi/app/utils/util.dart';
 
 class CustomTextFormField extends ConsumerWidget {
@@ -36,7 +36,7 @@ class CustomTextFormField extends ConsumerWidget {
           borderRadius: BorderRadius.circular(8.0),
         ),
         hintText: hintText,
-        hintStyle: Kangwon.lightGray_s35_w600_h24,
+        hintStyle: Kangwon.lightGray_s20_w600_h24,
         contentPadding: const EdgeInsets.all(8),
         filled: readOnly == true ? true : null,
         fillColor: readOnly == true ? getBGClr(bgColor!) : null,

@@ -10,7 +10,7 @@ import 'package:uandi/app/const/color_palette.dart';
 import 'package:uandi/app/const/kangwon.dart';
 import 'package:uandi/app/model/memo_model.dart';
 import 'package:uandi/app/model/couple.dart';
-import 'package:uandi/app/provider/counter_provider.dart';
+import 'package:uandi/app/provider/providers.dart';
 
 void onHearthPressed(context, WidgetRef ref, selectedDate) async {
   // final DateTime now = DateTime.now();

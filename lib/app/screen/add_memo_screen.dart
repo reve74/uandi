@@ -4,7 +4,7 @@ import 'package:uandi/app/common/widgets.dart';
 import 'package:uandi/app/const/color_palette.dart';
 import 'package:uandi/app/const/kangwon.dart';
 import 'package:uandi/app/const/size_helper.dart';
-import 'package:uandi/app/provider/counter_provider.dart';
+import 'package:uandi/app/provider/providers.dart';
 import 'package:uandi/app/utils/util.dart';
 import 'package:uandi/app/widget/custom_textformfield.dart';
 import 'package:uandi/app/widget/selecrt_color_widget.dart';

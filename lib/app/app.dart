@@ -23,13 +23,14 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-        valueListenable: Hive.box<Couple>('couple').listenable(),
-        builder: (context, Box<Couple> box, child) {
-          final item = box.get(0);
-          if(item == null) {
-            return SelectScreen();
-          }
-          return HomeScreen();
-    });
+      valueListenable: Hive.box<Couple>('couple').listenable(),
+      builder: (context, Box<Couple> box, child) {
+        final item = box.get(0);
+        if (item == null) {
+          return SelectScreen();
+        }
+        return HomeScreen();
+      },
+    );
   }
 }

@@ -36,14 +36,14 @@ class _TabBarWidgetState extends State<TabBarWidget>
       tabs: [
         Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Text(
+          child: const Text(
             '커플',
             style: Kangwon.point_s25_w400_h24,
           ),
         ),
         Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          child:   Text(
+          child:   const Text(
             '스토리',
             style: Kangwon.point_s25_w400_h24,
           ),
@@ -53,12 +53,12 @@ class _TabBarWidgetState extends State<TabBarWidget>
   }
 
   Widget _tabView() {
-    return Container(
+    return SizedBox(
       width: double.maxFinite,
       height: 300,
       child: TabBarView(
         controller: _tabController,
-        children: [
+        children: const [
           Text('커플'),
           Text('스토리'),
         ],

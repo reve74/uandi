@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uandi/app/const/color_palette.dart';
-import 'package:uandi/app/provider/counter_provider.dart';
+import 'package:uandi/app/provider/providers.dart';
 
 class SelectColorWidget extends ConsumerWidget {
   final int? index;
@@ -13,9 +13,7 @@ class SelectColorWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // if (index != null) {
-    //   ref.read(selectColorProvider.notifier).update((state) => state = index!);
-    // }
+
     final selectColor = ref.watch(selectColorProvider);
 
 

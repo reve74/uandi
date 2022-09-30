@@ -21,9 +21,6 @@ class BgImageWidget extends ConsumerStatefulWidget {
 }
 
 class _BgImageWidgetState extends ConsumerState<BgImageWidget> {
-  // XFile? _pickedFile;
-  // File? image;
-  // CroppedFile? _croppedFile;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +44,6 @@ class _BgImageWidgetState extends ConsumerState<BgImageWidget> {
             //   print(item.backgroundImage);
             //   return _backgroundImage(context);
             // }
-
             return GestureDetector(
               onTap: () {
                 ImageUtil().selectImage(
@@ -116,7 +112,7 @@ class _BgImageWidgetState extends ConsumerState<BgImageWidget> {
         );
       },
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.3,
+        height: 250,
         width: MediaQuery.of(context).size.width,
         child: Image.asset(
           'assets/img/couple.jpg',

@@ -53,27 +53,47 @@ class _CoupleTabBarState extends ConsumerState {
                   ValueListenableBuilder(
                     valueListenable: Hive.box<Memo>('memo').listenable(),
                     builder: (context, Box<Memo> box, child) {
+                      final hiveBox = box.values.toList();
+                      hiveBox.sort(
+                          (a, b) => a.selectedDate!.compareTo(b.selectedDate!));
                       return Column(
-                        children: List.generate(
-                          box.length,
-                          (index) {
-                            final memo = box.getAt(index);
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        MemoScreen(memo: memo!),
-                                  ),
-                                );
-                              },
-                              child: MemoCard(
-                                memo: memo!,
-                              ),
-                            );
-                          },
-                        ),
-                      );
+                          children: hiveBox
+                              .asMap()
+                              .entries
+                              .map((e) => GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              MemoScreen(memo: e.value),
+                                        ),
+                                      );
+                                    },
+                                    child: MemoCard(
+                                      memo: e.value,
+                                    ),
+                                  ))
+                              .toList()
+                          // List.generate(
+                          //   hiveBox.length,
+                          //   (index) {
+                          //     final memo = box.getAt(index);
+                          //     return GestureDetector(
+                          //       onTap: () {
+                          //         Navigator.of(context).push(
+                          //           MaterialPageRoute(
+                          //             builder: (context) =>
+                          //                 MemoScreen(memo: memo!),
+                          //           ),
+                          //         );
+                          //       },
+                          //       child: MemoCard(
+                          //         memo: memo!,
+                          //       ),
+                          //     );
+                          //   },
+                          // ),
+                          );
                     },
                   ),
                 ],
@@ -84,5 +104,4 @@ class _CoupleTabBarState extends ConsumerState {
       ),
     );
   }
-
 }

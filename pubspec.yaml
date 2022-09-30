@@ -22,6 +22,7 @@ dependencies:
   hive: ^2.2.3
   intl: ^0.17.0
   another_flushbar: ^1.12.29
+  scrollable_positioned_list: ^0.3.4
 
 dev_dependencies:
   flutter_test:
@@ -40,23 +41,8 @@ flutter:
   assets:
     - assets/
     - assets/img/
-    - assets/svg/
 
   fonts:
-    - family: Elice
-      fonts:
-        - asset: fonts/elice/EliceDigitalBaeumOTF_Regular.otf
-          weight: 400
-        - asset: fonts/elice/EliceDigitalBaeumOTF_Bold.otf
-          weight: 700
-    - family: Gmarket
-      fonts:
-        - asset: fonts/gmarket/GmarketSansTTFLight.ttf
-          weight: 300
-        - asset: fonts/gmarket/GmarketSansTTFMedium.ttf
-          weight: 500
-        - asset: fonts/gmarket/GmarketSansTTFBold.ttf
-          weight: 700
     - family: Kangwon
       fonts:
         - asset: fonts/kangwon/강원교육모두 Light.otf

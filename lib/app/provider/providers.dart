@@ -13,7 +13,7 @@ final dateProvider = StateProvider<DateTime>(
 final selectColorProvider = StateProvider.autoDispose<int>((ref) => 0);
 
 final textProvider = StateProvider.autoDispose<String>((ref) => '');
-//TODO: 상태 초기화 필요
+
 final memoDateProvider = StateProvider.autoDispose<DateTime>(
   (ref) => DateTime(
     now.year,

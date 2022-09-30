@@ -20,9 +20,7 @@ class ImageUtil {
     final pickedFile =
     await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      // setState(() {
-      //   _pickedFile = pickedFile;
-      // });
+
       _pickedFile = pickedFile;
 
       cropImage(
@@ -41,15 +39,16 @@ class ImageUtil {
         cropStyle: isCircle ? CropStyle.circle : CropStyle.rectangle,
         sourcePath: _pickedFile!.path,
         compressFormat: ImageCompressFormat.jpg,
-        // maxHeight: 200,
-        // maxWidth: 400,
+        // maxHeight: 1080,
+        // maxWidth: 1920,
         compressQuality: 100,
         aspectRatioPresets: [
           CropAspectRatioPreset.ratio3x2,
+          // CropAspectRatioPreset.original
         ],
         uiSettings: [
           AndroidUiSettings(
-            // toolbarTitle: 'Cropper',
+            toolbarTitle: '',
               toolbarColor: Colors.white,
               toolbarWidgetColor: Colors.black,
               initAspectRatio: CropAspectRatioPreset.original,
@@ -61,9 +60,6 @@ class ImageUtil {
       );
       if (croppedFile != null) {
         _croppedFile = croppedFile;
-        // setState(() {
-        //   _croppedFile = croppedFile;
-        // });
         print(_croppedFile);
       }
       final box = await Hive.openBox<Couple>('couple');

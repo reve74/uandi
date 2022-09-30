@@ -18,6 +18,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     with TickerProviderStateMixin {
 
   late TabController _tabController;
+  double height = 0;
 
   @override
   void initState() {
@@ -27,9 +28,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    height = AppBar().preferredSize.height + MediaQuery.of(context).padding.top + 80;
     return Scaffold(
       endDrawer: Drawer(
-        width: MediaQuery.of(context).size.width * .7,
+        width: MediaQuery.of(context).size.width * .55,
         child: _drawer(),
       ),
       appBar: AppBar(
@@ -100,7 +102,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         controller: _tabController,
         children: [
           const CoupleTabBar(),
-          const StoryTabBar(),
+           StoryTabBar(height: height),
         ],
       ),
     );
