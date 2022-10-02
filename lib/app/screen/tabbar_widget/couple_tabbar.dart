@@ -33,7 +33,7 @@ class _CoupleTabBarState extends ConsumerState {
           children: [
             eHeight(20),
             BgImageWidget(),
-            eHeight(20),
+            eHeight(10),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
@@ -41,7 +41,7 @@ class _CoupleTabBarState extends ConsumerState {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('기념일 메모', style: Kangwon.black_s25_w600_h24),
+                      const Text('다이어리', style: Kangwon.black_s25_w600_h24),
                       IconButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -53,9 +53,13 @@ class _CoupleTabBarState extends ConsumerState {
                   ValueListenableBuilder(
                     valueListenable: Hive.box<Memo>('memo').listenable(),
                     builder: (context, Box<Memo> box, child) {
+                      if(box.length == 0) {
+                        return Container();
+                      }
+
                       final hiveBox = box.values.toList();
                       hiveBox.sort(
-                          (a, b) => a.selectedDate!.compareTo(b.selectedDate!));
+                          (a, b) => a.selectedDate.compareTo(b.selectedDate));
                       return Column(
                           children: hiveBox
                               .asMap()

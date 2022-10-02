@@ -24,5 +24,5 @@ class ColorPalette {
   static const purple = Color(0xFF7572F4);
   static const peach = Color(0xFFFA7070);
   static const beige = Color(0xFFFEF1E6);
-
+  static const background = Color(0xfff8f9ff);
 }

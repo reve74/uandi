@@ -66,7 +66,7 @@ class _BgImageWidgetState extends ConsumerState<BgImageWidget> {
         SizedBox(
           height: 100,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _circleAvatar(id: 1),
               ValueListenableBuilder(
@@ -83,7 +83,7 @@ class _BgImageWidgetState extends ConsumerState<BgImageWidget> {
                             now.month,
                             now.day,
                           ).difference(item!.selectedDate as DateTime).inDays + 1}',
-                      style: Kangwon.black_s35_w400_h24,
+                      style: Kangwon.black_s25_w400_h24,
                     ),
                   );
                 },
@@ -98,7 +98,7 @@ class _BgImageWidgetState extends ConsumerState<BgImageWidget> {
 
   Widget smile() {
     return Image.asset(
-      'assets/img/smile.png',
+      'assets/img/happy.png',
       height: 80,
     );
   }
@@ -125,8 +125,9 @@ class _BgImageWidgetState extends ConsumerState<BgImageWidget> {
   Widget _dayCount(context, ref, selectedDate, Text day) {
     return Column(
       children: [
+        eHeight(10),
         IconButton(
-          iconSize: 55,
+          iconSize: 50,
           onPressed: () {
             onHearthPressed(context, ref, selectedDate);
           },

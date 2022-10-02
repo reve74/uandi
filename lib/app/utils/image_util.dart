@@ -1,16 +1,33 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uandi/app/model/couple.dart';
+import 'package:uandi/app/model/memo_model.dart';
 
 class ImageUtil {
   XFile? _pickedFile;
   File? image;
   CroppedFile? _croppedFile;
 
+  Future selectDiaryImage({
+    required WidgetRef ref,
+    required AutoDisposeStateProvider<File> autoDisposeProvider,
+  }) async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      ref.read(autoDisposeProvider.notifier).update(
+            (state) => File(pickedFile.path),
+          );
+      // print(ref.watch(stateProvider.state).state);
+
+      return File(pickedFile.path);
+    }
+  }
 
   Future<void> selectImage({
     required BuildContext context,
@@ -18,9 +35,8 @@ class ImageUtil {
     bool isCircle = false,
   }) async {
     final pickedFile =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-
       _pickedFile = pickedFile;
 
       cropImage(
@@ -48,14 +64,14 @@ class ImageUtil {
         ],
         uiSettings: [
           AndroidUiSettings(
-            toolbarTitle: '',
+              toolbarTitle: '',
               toolbarColor: Colors.white,
               toolbarWidgetColor: Colors.black,
               initAspectRatio: CropAspectRatioPreset.original,
               lockAspectRatio: false),
           IOSUiSettings(
-            // title: 'Cropper',
-          ),
+              // title: 'Cropper',
+              ),
         ],
       );
       if (croppedFile != null) {
@@ -63,6 +79,7 @@ class ImageUtil {
         print(_croppedFile);
       }
       final box = await Hive.openBox<Couple>('couple');
+      final memoBox = await Hive.openBox<Memo>('memo');
 
       switch (imageType) {
         case 1:
@@ -74,11 +91,6 @@ class ImageUtil {
       }
     }
   }
-
-
-
-
-
 
   // 이미지 삭제
   void deleteImage(context, int id) async {
@@ -164,6 +176,5 @@ class ImageUtil {
 //       cropImage(pickedFile: pickedFile);
 //     }
 //   }
-
 
 }

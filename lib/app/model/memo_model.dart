@@ -5,7 +5,7 @@ part 'memo_model.g.dart';
 @HiveType(typeId: 2)
 class Memo {
   @HiveField(0)
-  final DateTime? selectedDate;
+  final DateTime selectedDate;
 
   @HiveField(1)
   final String text;
@@ -16,10 +16,14 @@ class Memo {
   @HiveField(3)
   final int color;
 
+  @HiveField(4)
+  final String imagePath;
+
   Memo({
-    this.selectedDate,
+    required this.selectedDate,
     required this.text,
     required this.id,
     required this.color,
+    required this.imagePath,
   });
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:uandi/app/common/widgets.dart';
 import 'package:uandi/app/const/color_palette.dart';
@@ -17,39 +19,50 @@ class MemoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dateString = dateFormatter(date: memo.selectedDate!);
+    final dateString = dateFormatter(date: memo.selectedDate);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorPalette.pink,
         elevation: 0,
-        title: const Text('기념일 메모', style: Kangwon.white_s30_bold_h24),
+        title: const Text('다이어리', style: Kangwon.white_s30_bold_h24),
         centerTitle: true,
         actions: _actions(context),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Spacer(flex: 10),
-            label('날짜'),
-            Text(
-              dateString,
-              style: Kangwon.black_s25_w400_h24,
-            ),
-            eHeight(10),
-            label('내용'),
-            CustomTextFormField(
-              label: memo.text,
-              readOnly: true,
-              bgColor: memo.color,
-            ),
-            eHeight(10),
-            Spacer(
-              flex: 200,
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              eHeight(10),
+              Text(
+                dateString,
+                style: Kangwon.black_s25_w400_h24,
+              ),
+              eHeight(10),
+              ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                child: Image.file(
+                  height: 400,
+                  // width: 360,
+                  fit: BoxFit.cover,
+                  File(memo.imagePath),
+                ),
+              ),
+              eHeight(10),
+              // label('내용'),
+              CustomTextFormField(
+                label: memo.text,
+                readOnly: true,
+                bgColor: memo.color,
+              ),
+              eHeight(10),
+              // Spacer(
+              //   flex: 200,
+              // ),
+            ],
+          ),
         ),
       ),
     );

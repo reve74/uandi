@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final now = DateTime.now();
@@ -21,4 +23,6 @@ final memoDateProvider = StateProvider.autoDispose<DateTime>(
     now.day,
   ),
 );
+
+final diaryImageProvider = StateProvider.autoDispose<File>((ref) => File(''));
 

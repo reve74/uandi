@@ -17,17 +17,18 @@ class MemoAdapter extends TypeAdapter<Memo> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Memo(
-      selectedDate: fields[0] as DateTime?,
+      selectedDate: fields[0] as DateTime,
       text: fields[1] as String,
       id: fields[2] as int,
       color: fields[3] as int,
+      imagePath: fields[4] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Memo obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.selectedDate)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class MemoAdapter extends TypeAdapter<Memo> {
       ..writeByte(2)
       ..write(obj.id)
       ..writeByte(3)
-      ..write(obj.color);
+      ..write(obj.color)
+      ..writeByte(4)
+      ..write(obj.imagePath);
   }
 
   @override

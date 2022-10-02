@@ -28,22 +28,25 @@ class CustomTextFormField extends ConsumerWidget {
     return TextFormField(
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: ColorPalette.lightGray),
+          // borderSide: const BorderSide(color: ColorPalette.black),
+          borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(8.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: readOnly != true ? const BorderSide(color: ColorPalette.lightGray) : BorderSide.none,
+          // borderSide: readOnly != true ? const BorderSide(color: ColorPalette.black) : BorderSide.none,
+          borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(8.0),
         ),
         hintText: hintText,
         hintStyle: Kangwon.lightGray_s20_w600_h24,
         contentPadding: const EdgeInsets.all(8),
-        filled: readOnly == true ? true : null,
-        fillColor: readOnly == true ? getBGClr(bgColor!) : null,
+        // filled: readOnly == true ? true : null,
+        filled: true,
+        fillColor: readOnly == true ? getBGClr(bgColor!) : ColorPalette.white,
       ),
       readOnly: readOnly ?? false,
       initialValue: label,
-      maxLines: 6,
+      maxLines: 4,
       controller: controller,
       // onChanged: (value) {
       //   final printValue =

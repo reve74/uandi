@@ -28,7 +28,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    height = AppBar().preferredSize.height + MediaQuery.of(context).padding.top + 80;
+    height = AppBar().preferredSize.height + MediaQuery.of(context).padding.top + 60;
     return Scaffold(
       endDrawer: Drawer(
         width: MediaQuery.of(context).size.width * .55,

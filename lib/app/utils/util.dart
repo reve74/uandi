@@ -159,10 +159,13 @@ String dateFormatter({required DateTime date}) {
   return dateString;
 }
 
-
-
 // 기념일 추가
-void addMemo(context, WidgetRef ref, TextEditingController controller) async{
+void addMemo({
+  required BuildContext context,
+  required WidgetRef ref,
+  required TextEditingController controller,
+  required String imagePath,
+}) async {
   final box = await Hive.openBox<Memo>('memo');
   int id = 0;
 
@@ -180,6 +183,7 @@ void addMemo(context, WidgetRef ref, TextEditingController controller) async{
       text: controller.text.trim(),
       id: id,
       color: ref.read(selectColorProvider),
+      imagePath: imagePath,
     ),
   );
   Navigator.of(context).pop();
@@ -208,10 +212,10 @@ Color getBGClr(int no) {
   }
 }
 
-void flushBar(BuildContext context) {
+void flushBar(BuildContext context, String text) {
   Flushbar(
-    messageText: const Text(
-      '내용을 작성해주세요.',
+    messageText:  Text(
+      text,
       style: Kangwon.black_s20_w600_h24,
     ),
     flushbarPosition: FlushbarPosition.TOP,
@@ -224,7 +228,6 @@ void flushBar(BuildContext context) {
     duration: const Duration(
       milliseconds: 2000,
     ),
-
   ).show(context);
 }
 
