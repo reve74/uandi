@@ -4,6 +4,7 @@ import 'package:uandi/app/const/color_palette.dart';
 import 'package:uandi/app/const/kangwon.dart';
 import 'package:uandi/app/screen/tabbar_widget/couple_tabbar.dart';
 import 'package:uandi/app/screen/tabbar_widget/story_tabbar.dart';
+import 'package:uandi/app/screen/webview_screen.dart';
 import 'package:uandi/app/utils/image_util.dart';
 import 'package:uandi/app/utils/util.dart';
 
@@ -16,7 +17,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen>
     with TickerProviderStateMixin {
-
   late TabController _tabController;
   double height = 0;
 
@@ -28,7 +28,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    height = AppBar().preferredSize.height + MediaQuery.of(context).padding.top + 60;
+    height =
+        AppBar().preferredSize.height + MediaQuery.of(context).padding.top + 60;
     return Scaffold(
       endDrawer: Drawer(
         width: MediaQuery.of(context).size.width * .55,
@@ -102,7 +103,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         controller: _tabController,
         children: [
           const CoupleTabBar(),
-           StoryTabBar(height: height),
+          StoryTabBar(height: height),
         ],
       ),
     );
@@ -175,6 +176,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         ),
         _divider(),
         const Spacer(flex: 500),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => WebViewScreen()));
+          },
+          child: Text(
+            '개인정보 처리방침',
+            style: Kangwon.lightGray_s17_w400_h24,
+          ),
+        ),
+        const Spacer(
+          flex: 20,
+        ),
       ],
     );
   }
